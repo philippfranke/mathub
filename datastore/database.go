@@ -15,7 +15,7 @@ var (
 func Connect() (*sqlx.DB, error) {
 	var err error
 	ConnectOnce.Do(func() {
-		db, err = sqlx.Connect("mysql", "mathub:mathub@(d.docker:3306)/mathub")
+		db, err = sqlx.Connect("mysql", "mathub:mathub@(d.docker:3306)/mathub?parseTime=true")
 	})
 
 	return db, err

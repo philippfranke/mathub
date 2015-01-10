@@ -3,6 +3,7 @@ package main
 import (
 	"net/http"
 
+	"github.com/philippfranke/mathub/services/assignment"
 	"github.com/philippfranke/mathub/services/lecture"
 	"github.com/philippfranke/mathub/services/university"
 )
@@ -23,5 +24,7 @@ var Routes = map[string]*Route{
 	"universities_url": &Route{"/unis", university.Router()},
 	"university_url":   &Route{"/unis/{uni}", university.Router()},
 	"lectures_url":     &Route{"/unis/{uni}/lectures", lecture.Router()},
-	"lecture_url":      &Route{"/unis/{uni}/lectures/{lecture}", lecture.Router()},
+
+	"lecture_url":     &Route{"/unis/{uni}/lectures/{lecture}", lecture.Router()},
+	"assignments_url": &Route{"/unis/{uni}/lectures/{lecture}/assignments", assignment.Router()},
 }
