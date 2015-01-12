@@ -14,6 +14,7 @@ import (
 
 var (
 	listenAddr = flag.String("listen", ":8080", "HTTP listen address")
+	dataPath   = flag.String("data", "./repos", "Repository path")
 )
 
 func main() {

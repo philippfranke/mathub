@@ -1,6 +1,7 @@
 package assignment
 
 import (
+	"database/sql"
 	"encoding/json"
 	"fmt"
 	"net/http"
@@ -13,12 +14,24 @@ import (
 )
 
 func IndexHandler(w http.ResponseWriter, r *http.Request) error {
-	lectures, err := All(mux.Vars(r)["lecture"])
+	assignment, err := All(mux.Vars(r)["lecture"])
 	if err != nil {
 		return err
 	}
 
-	return WriteJSON(w, lectures)
+	return WriteJSON(w, assignment)
+}
+
+func ShowHandler(w http.ResponseWriter, r *http.Request) error {
+	assignment, err := Get(mux.Vars(r)["assignment"], mux.Vars(r)["lecture"])
+	if err == sql.ErrNoRows {
+		w.WriteHeader(http.StatusNotFound)
+		return nil
+	} else if err != nil {
+		return err
+	}
+
+	return WriteJSON(w, assignment)
 }
 
 func CreateHandler(w http.ResponseWriter, r *http.Request) error {

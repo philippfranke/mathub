@@ -26,5 +26,6 @@ var Routes = map[string]*Route{
 	"lectures_url":     &Route{"/unis/{uni}/lectures", lecture.Router()},
 
 	"lecture_url":     &Route{"/unis/{uni}/lectures/{lecture}", lecture.Router()},
-	"assignments_url": &Route{"/unis/{uni}/lectures/{lecture}/assignments", assignment.Router()},
+	"assignments_url": &Route{"/unis/{uni}/lectures/{lecture}/assignments", assignment.Router(*dataPath)},
+	"assignment_url":  &Route{"/unis/{uni}/lectures/{lecture}/assignments/{assignment}", assignment.Router(*dataPath)},
 }

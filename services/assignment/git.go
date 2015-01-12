@@ -7,8 +7,6 @@ import (
 	"path/filepath"
 )
 
-const BasePath = "/Users/philiqq/Projects/go/src/github.com/philippfranke/mathub/repos"
-
 type Repo struct {
 	uni     string
 	lecture string
@@ -16,7 +14,7 @@ type Repo struct {
 }
 
 func (r *Repo) Create() error {
-	r.dir = filepath.Join(BasePath, r.uni, r.lecture)
+	r.dir = filepath.Join(DataPath, r.uni, r.lecture)
 
 	if err := os.MkdirAll(r.dir, 0755); err != nil {
 		return err
@@ -36,6 +34,7 @@ func (r *Repo) Create() error {
 
 func (r *Repo) Add(filename, tex string) error {
 	path := filepath.Join(r.dir, filename)
+
 	file, err := os.Create(path)
 	if err != nil {
 		return err

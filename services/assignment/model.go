@@ -1,11 +1,13 @@
 package assignment
 
+import "time"
+
 type Assignment struct {
-	Id        int64 `json:"id"`
-	LectureId int64 `json:"lecture_id" db:"lecture_id"`
-	UserID    int64 `json:"user_id" db:"user_id"`
-	//DueDate   time.Time `json:"due_date" db:"due_date"`
-	Tex string `json:"tex"`
+	Id        int64     `json:"id"`
+	LectureId int64     `json:"lecture_id" db:"lecture_id"`
+	UserID    int64     `json:"user_id" db:"user_id"`
+	DueDate   time.Time `json:"due_date" db:"due_date"`
+	Tex       string    `json:"tex"`
 
 	CommitHash string `json:"-" db:"commit_hash"`
 }
@@ -25,6 +27,16 @@ func All(assignment string) (Assignments, error) {
 	}
 
 	return assignments, nil
+}
+
+func Get(id, lecture string) (Assignment, error) {
+	var assignment Assignment
+	err := DB.Get(&assignment, "SELECT id, lecture_id, user_id, due_date, commit_hash, tex FROM assignments WHERE id = ? and lecture_id = ?;", id, lecture)
+	if err != nil {
+		return Assignment{}, err
+	}
+
+	return assignment, nil
 }
 
 func Create(assignment Assignment) (Assignment, error) {
