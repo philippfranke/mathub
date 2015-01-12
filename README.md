@@ -28,9 +28,10 @@ go build
 ```
 
 Default flags: 
+```
   -listen=:8080           // HTTP listen address
   -data=./repos           // Repository path
-
+```
 
 ## Todo
 - Dockerfile
