@@ -23,7 +23,7 @@ func All(assignmentId string) (Comments, error) {
 	}
 
 	if len(comments) == 0 {
-		return []comments{}, nil
+		return Comments{}, nil
 	}
 
 	return comments, nil
