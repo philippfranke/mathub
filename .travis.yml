@@ -9,4 +9,4 @@ install:
   - go get github.com/jmoiron/sqlx
   - go get github.com/go-sql-driver/mysql
 
-script: go test -v ./shared
+script: go test -v ./...
