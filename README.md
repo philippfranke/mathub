@@ -3,6 +3,10 @@ mathub
 
 Please fork, instead of working in this repo
 
+
+## Code Status
+[![Build Status](https://magnum.travis-ci.com/philippfranke/mathub.svg?token=xJ4sKXa1NvaxvBZ52Ap2&branch=master)](https://magnum.travis-ci.com/philippfranke/mathub)
+
 ## Install
 ### Install dependencies 
 ```
