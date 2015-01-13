@@ -6,6 +6,7 @@ import (
 	"github.com/philippfranke/mathub/services/assignment"
 	"github.com/philippfranke/mathub/services/lecture"
 	"github.com/philippfranke/mathub/services/university"
+	"github.com/philippfranke/mathub/services/user"
 )
 
 // Route represents an entrypoint
@@ -23,6 +24,8 @@ func (r *Route) MarshalJSON() ([]byte, error) {
 var Routes = map[string]*Route{
 	"universities_url": &Route{"/unis", university.Router()},
 	"university_url":   &Route{"/unis/{uni}", university.Router()},
+	"users_url":        &Route{"/users", user.Router()},
+	"user_url":         &Route{"/users/{user}", user.Router()},
 	"lectures_url":     &Route{"/unis/{uni}/lectures", lecture.Router()},
 
 	"lecture_url":     &Route{"/unis/{uni}/lectures/{lecture}", lecture.Router()},
