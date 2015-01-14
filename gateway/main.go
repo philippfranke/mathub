@@ -9,13 +9,31 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
+	"github.com/jmoiron/sqlx"
+	"github.com/philippfranke/mathub/datastore"
 	. "github.com/philippfranke/mathub/shared"
 )
 
 var (
 	listenAddr = flag.String("listen", ":8080", "HTTP listen address")
 	dataPath   = flag.String("data", "./repos", "Repository path")
+	dumpPath   = flag.String("dump", "", "mySQL dump path")
+	DB         *sqlx.DB
 )
+
+func init() {
+	flag.Parse()
+
+	var err error
+	DB, err = datastore.Connect()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	if *dumpPath != "" {
+		datastore.ImportDump(*dumpPath)
+	}
+}
 
 func main() {
 	r := mux.NewRouter()
