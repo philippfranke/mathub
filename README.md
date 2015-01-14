@@ -62,5 +62,5 @@ docker build -t mathub:latest .
 
 2. Run docker image
 ```
-docker run --name mathub -p 80:8080 --link mathub-mysql:mysql -d mathub:latest
-``
+docker run --name mathub -p 80:8080 -v ~/repos:/tmp/repos --link mathub-mysql:mysql -d mathub:latest
+```
