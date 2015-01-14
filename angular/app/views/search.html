@@ -1,2 +1,17 @@
-{{data}}
-{{error}}
+<ul class="searchselector">
+	<li ng-click="Handler()">
+		University
+	</li>
+	<li ng-show="showLecture" ng-click="Handler(uni)">
+		Lecture
+	</li>
+	<li ng-show="showAssignment">
+		Assignment
+	</li>
+</ul>
+
+<ul class="searchResult">
+	<li ng-repeat="thing in data" ng-class-odd="'searchodd'" ng-click="Handler(thing.id,thing.university_id,thing.user_id)">
+		{{thing.name}}
+	</li>
+</ul>

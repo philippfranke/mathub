@@ -25,7 +25,7 @@ angular.module('angularApp')
         return $http.delete(urlBase + '/unis/' + id);
     };
 
-    api.getLectures = function (uniID) {
+    api.getAllLectures = function (uniID) {
         return $http.get(urlBase + '/unis/'+uniID+'/lectures');
     };
 
@@ -53,7 +53,6 @@ angular.module('angularApp')
     return api;
 }]).config(['$httpProvider', function($httpProvider) {
         $httpProvider.defaults.useXDomain = true;
-        console.log('wtffff');
         delete $httpProvider.defaults.headers.common['X-Requested-With'];
     }
 ]);

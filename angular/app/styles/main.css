@@ -104,6 +104,38 @@ body {
     margin-right: auto;
 }
 
+/* Search page */
+
+.searchselector {
+  display: table;
+  list-style: outside none none;
+  display:block;
+  position: relative;
+  height:20px;
+}
+.searchselector li{
+  float:left;
+  cursor:pointer;
+  margin-left: 30px;
+}
+
+.searchResult {
+  display: table;
+  list-style: outside none none;
+  display:block;
+  position: relative;
+}
+
+.searchResult li{
+  cursor:pointer;
+  margin-left: 50px;
+  text-align: left;
+  margin-top: 6px;
+}
+.searchodd {
+  background-color: #FFD27E;
+}
+
 /* Customize container */
 @media (min-width: 1000px) {
   .container {
