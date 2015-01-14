@@ -31,7 +31,7 @@ body {
   float: left;
   position: relative;
 }
-.header a{
+.link {
   text-decoration: none;
   padding: 1px 15px;
   margin-top: 0;
@@ -68,10 +68,28 @@ body {
 .avatar {
   width: 40px;
   height:40px;
-  margin-left:40px;
+  margin-left:80px;
 }
-.username {
-  
+.username{
+  text-decoration: none;
+  color:#F93 !important;
+  display: block;
+  line-height: 40px;
+  font-size: 18px;
+}
+.inbox{
+  width: 30px;
+  height:30px;
+  background-color: #FF9933;
+  margin-left:10px;
+  margin-top:5px;
+}
+.settings{
+  width: 30px;
+  height:30px;
+  background-color: #FF9933;
+  margin-left:10px;
+  margin-top:5px;
 }
 
 /* Custom page footer */
@@ -79,6 +97,11 @@ body {
   padding-top: 19px;
   color: #777;
   border-top: 1px solid #e5e5e5;
+  font-size: 12px;
+}
+.footer p{
+    margin-left: auto;
+    margin-right: auto;
 }
 
 /* Customize container */
@@ -87,6 +110,7 @@ body {
     max-width: 1000px;
     margin-left: auto;
     margin-right: auto;
+    text-align: center;
   }
 }
 .container-narrow > hr {
