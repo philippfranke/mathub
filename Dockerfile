@@ -1,6 +1,10 @@
 FROM golang
 
-RUN apt-get update && apt-get install --no-install-recommends -y -q build-essential git
+RUN apt-get update &&  \
+    apt-get install --no-install-recommends -y -q  git && \
+    rm -rf /var/lib/apt/lists/*
+
+RUN  git config --global user.email "git@mathub.docker" && git config --global user.name "System Mathub"
 
 ADD . /go/src/github.com/philippfranke/mathub
 RUN go get github.com/gorilla/mux && \
@@ -13,7 +17,7 @@ ENV MYSQL_DATABASE mathub
 
 RUN go install github.com/philippfranke/mathub/gateway
 
-RUN rm -rf /var/lib/apt/lists/* && apt-get remove -y --purge build-essential && apt-get clean
+RUN apt-get clean
 
 ENTRYPOINT ["/go/bin/gateway", "-data", "/tmp/repos", "-dump", "/go/src/github.com/philippfranke/mathub/datastore/mathub.sql"]
 EXPOSE 8080

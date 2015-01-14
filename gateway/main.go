@@ -40,7 +40,7 @@ func main() {
 	r.Handle("/", Handler(serveRoutes))
 
 	// Register routes
-	for _, route := range Routes {
+	for _, route := range Entrypoints() {
 		r.Handle(route.path, route.handler)
 	}
 
@@ -50,7 +50,7 @@ func main() {
 
 // serveRoutes lists all entrypoints
 func serveRoutes(w http.ResponseWriter, r *http.Request) error {
-	return WriteJSON(w, Routes)
+	return WriteJSON(w, Entrypoints())
 }
 
 // TODO(franke): StripPrefix in order to avoid duplicated routes
