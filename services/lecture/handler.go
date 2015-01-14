@@ -79,6 +79,10 @@ func UpdateHandler(w http.ResponseWriter, r *http.Request) error {
 
 	lecture.Id = original.Id
 
+	if lecture.UniversityId == 0 {
+		lecture.UniversityId = original.UniversityId
+	}
+
 	err = Update(lecture)
 	return WriteJSON(w, lecture)
 }
