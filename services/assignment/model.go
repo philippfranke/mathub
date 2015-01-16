@@ -66,10 +66,28 @@ func GetLastId() (int64, error) {
 	return lastId, nil
 }
 
-func Update(assignment Assignment) error {
-	_, err := DB.Exec("UPDATE assignments SET commit_hash = ? WHERE id = ?;", assignment.CommitHash, assignment.Id)
+func UpdateId(assignment Assignment) error {
+	_, err := DB.Exec("UPDATE assignments SET commit_hash = ?, tex= WHERE id = ?;", assignment.CommitHash, assignment.Id)
 	if err != nil {
 		return err
 	}
+	return nil
+}
+
+func Update(assignment Assignment) error {
+	_, err := DB.Exec("UPDATE assignments SET tex = ?, commit_hash = ? WHERE id = ?;", assignment.Tex, assignment.CommitHash, assignment.Id)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func Destroy(id, lecture string) error {
+	_, err := DB.Exec("DELETE FROM assignments WHERE id = ? and lecture_id = ?;", id, lecture)
+
+	if err != nil {
+		return err
+	}
+
 	return nil
 }

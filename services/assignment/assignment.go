@@ -32,6 +32,8 @@ func Router(path string) http.Handler {
 	r.Handle("/unis/{uni}/lectures/{lecture}/assignments/{assignment}", Handler(ShowHandler)).Methods("GET", "HEAD")
 
 	r.Handle("/unis/{uni}/lectures/{lecture}/assignments", Handler(CreateHandler)).Methods("POST")
+	r.Handle("/unis/{uni}/lectures/{lecture}/assignments/{assignment}", Handler(UpdateHandler)).Methods("PATCH")
+	r.Handle("/unis/{uni}/lectures/{lecture}/assignments/{assignment}", Handler(DestroyHandler)).Methods("DELETE")
 
 	return r
 }

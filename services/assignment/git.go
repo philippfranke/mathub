@@ -13,6 +13,11 @@ type Repo struct {
 	dir     string
 }
 
+func (r *Repo) Open() error {
+	r.dir = filepath.Join(DataPath, r.uni, r.lecture)
+	return nil
+}
+
 func (r *Repo) Create() error {
 	r.dir = filepath.Join(DataPath, r.uni, r.lecture)
 
@@ -45,6 +50,37 @@ func (r *Repo) Add(filename, tex string) error {
 	gitAdd.Dir = r.dir
 	out, err := gitAdd.CombinedOutput()
 	log.Printf("gitAdd: %s", out)
+	return err
+}
+
+func (r *Repo) Update(filename, tex string) error {
+	path := filepath.Join(r.dir, filename)
+	file, err := os.OpenFile(path, os.O_WRONLY, 0666)
+	if err != nil {
+		return err
+	}
+	file.WriteString(tex)
+	gitAdd := exec.Command("git", "add", path)
+	gitAdd.Dir = r.dir
+	out, err := gitAdd.CombinedOutput()
+	log.Printf("gitAdd: %s", out)
+	return err
+}
+
+func (r *Repo) Status() (string, error) {
+	gitStatus := exec.Command("git", "status", "-s")
+	gitStatus.Dir = r.dir
+	out, err := gitStatus.CombinedOutput()
+	log.Printf("gitStatus: %s", out)
+	return string(out), err
+}
+
+func (r *Repo) Destroy(filename string) error {
+	path := filepath.Join(r.dir, filename)
+	gitRm := exec.Command("git", "rm", path)
+	gitRm.Dir = r.dir
+	out, err := gitRm.CombinedOutput()
+	log.Printf("gitRm: %s", out)
 	return err
 }
 
