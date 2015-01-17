@@ -23,9 +23,9 @@ func All(uni string) (Lectures, error) {
 	return lectures, nil
 }
 
-func Get(id, uni string) (Lecture, error) {
+func Get(id string) (Lecture, error) {
 	var lecture Lecture
-	err := DB.Get(&lecture, "SELECT id, university_id, name FROM lectures WHERE id = ? and university_id = ?;", id, uni)
+	err := DB.Get(&lecture, "SELECT id, university_id, name FROM lectures WHERE id = ?;", id)
 	if err != nil {
 		return Lecture{}, err
 	}
@@ -56,8 +56,8 @@ func Update(lecture Lecture) error {
 	return nil
 }
 
-func Destroy(id, uni string) error {
-	_, err := DB.Exec("DELETE FROM lectures WHERE id = ? and university_id = ?;", id, uni)
+func Destroy(id string) error {
+	_, err := DB.Exec("DELETE FROM lectures WHERE id = ?;", id)
 
 	if err != nil {
 		return err

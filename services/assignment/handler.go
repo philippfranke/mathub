@@ -13,8 +13,8 @@ import (
 	. "github.com/philippfranke/mathub/shared"
 )
 
-func IndexHandler(w http.ResponseWriter, r *http.Request) error {
-	assignment, err := All(mux.Vars(r)["lecture"])
+func IndexHandler(w http.ResponseWriter, r *http.Request, u university.University, l lecture.Lecture) error {
+	assignment, err := All(strconv.FormatInt(l.Id, 10))
 	if err != nil {
 		return err
 	}
@@ -22,8 +22,8 @@ func IndexHandler(w http.ResponseWriter, r *http.Request) error {
 	return WriteJSON(w, assignment)
 }
 
-func ShowHandler(w http.ResponseWriter, r *http.Request) error {
-	assignment, err := Get(mux.Vars(r)["assignment"], mux.Vars(r)["lecture"])
+func ShowHandler(w http.ResponseWriter, r *http.Request, u university.University, l lecture.Lecture) error {
+	assignment, err := Get(mux.Vars(r)["assignment"])
 	if err == sql.ErrNoRows {
 		w.WriteHeader(http.StatusNotFound)
 		return nil
@@ -34,7 +34,7 @@ func ShowHandler(w http.ResponseWriter, r *http.Request) error {
 	return WriteJSON(w, assignment)
 }
 
-func CreateHandler(w http.ResponseWriter, r *http.Request) error {
+func CreateHandler(w http.ResponseWriter, r *http.Request, u university.University, l lecture.Lecture) error {
 	var err error
 	var assignment Assignment
 
@@ -46,23 +46,10 @@ func CreateHandler(w http.ResponseWriter, r *http.Request) error {
 		return nil
 	}
 
-	lectureId := mux.Vars(r)["lecture"]
-	universityId := mux.Vars(r)["uni"]
-
-	uni, err := university.Get(universityId)
-	if err != nil {
-		return err
-	}
-	lect, err := lecture.Get(lectureId, universityId)
-	if err != nil {
-		return err
-	}
-
-	intLectureId, _ := strconv.ParseInt(lectureId, 10, 0)
-	assignment.LectureId = intLectureId
+	assignment.LectureId = l.Id
 
 	// Create
-	rp := &Repo{uni: uni.Name, lecture: lect.Name}
+	rp := &Repo{uni: u.Name, lecture: l.Name}
 	if err := rp.Create(); err != nil {
 		return err
 	}
@@ -86,6 +73,6 @@ func CreateHandler(w http.ResponseWriter, r *http.Request) error {
 	return WriteJSON(w, assignment)
 }
 
-func UpdateHandler(w http.ResponseWriter, r *http.Request) error {
+func UpdateHandler(w http.ResponseWriter, r *http.Request, u university.University, l lecture.Lecture) error {
 	return nil
 }
