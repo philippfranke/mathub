@@ -29,9 +29,9 @@ func All(assignment string) (Assignments, error) {
 	return assignments, nil
 }
 
-func Get(id, lecture string) (Assignment, error) {
+func Get(id string) (Assignment, error) {
 	var assignment Assignment
-	err := DB.Get(&assignment, "SELECT id, lecture_id, user_id, due_date, commit_hash, tex FROM assignments WHERE id = ? and lecture_id = ?;", id, lecture)
+	err := DB.Get(&assignment, "SELECT id, lecture_id, user_id, due_date, commit_hash, tex FROM assignments WHERE id = ? and lecture_id = ?;", id)
 	if err != nil {
 		return Assignment{}, err
 	}

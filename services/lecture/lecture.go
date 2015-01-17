@@ -1,6 +1,7 @@
 package lecture
 
 import (
+	"database/sql"
 	"log"
 	"net/http"
 
@@ -27,25 +28,28 @@ func Router() http.Handler {
 
 	r := mux.NewRouter()
 
-	r.Handle("/unis/{uni}/lectures", FilterHandler(Handler(IndexHandler))).Methods("GET", "HEAD")
-	r.Handle("/unis/{uni}/lectures", FilterHandler(Handler(CreateHandler))).Methods("POST")
-	r.Handle("/unis/{uni}/lectures/{lecture}", FilterHandler(Handler(ShowHandler))).Methods("GET", "HEAD")
-	r.Handle("/unis/{uni}/lectures/{lecture}", FilterHandler(Handler(UpdateHandler))).Methods("PATCH")
-	r.Handle("/unis/{uni}/lectures/{lecture}", FilterHandler(Handler(DestroyHandler))).Methods("DELETE")
+	r.Handle("/unis/{uni}/lectures", Handler(filterHandler(IndexHandler))).Methods("GET", "HEAD")
+	r.Handle("/unis/{uni}/lectures", Handler(filterHandler(CreateHandler))).Methods("POST")
+	r.Handle("/unis/{uni}/lectures/{lecture}", Handler(filterHandler(ShowHandler))).Methods("GET", "HEAD")
+	r.Handle("/unis/{uni}/lectures/{lecture}", Handler(filterHandler(UpdateHandler))).Methods("PATCH")
+	r.Handle("/unis/{uni}/lectures/{lecture}", Handler(filterHandler(DestroyHandler))).Methods("DELETE")
 
 	return r
 }
 
 // Filter valid uniID
-type FilterHandler func(w http.ResponseWriter, r *http.Request) error
+type UniversityHandler func(w http.ResponseWriter, r *http.Request, u university.University) error
 
-func (h FilterHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+func filterHandler(next UniversityHandler) Handler {
+	return func(w http.ResponseWriter, r *http.Request) error {
+		u, err := university.Get(mux.Vars(r)["uni"])
+		if err == sql.ErrNoRows {
+			w.WriteHeader(http.StatusNotFound)
+			return nil
+		} else if err != nil {
+			return err
+		}
 
-	if !university.PreCheck(mux.Vars(r)["uni"]) {
-		w.WriteHeader(http.StatusNotFound)
-		return
+		return next(w, r, u)
 	}
-
-	h(w, r)
-
 }
