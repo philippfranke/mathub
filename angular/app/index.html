@@ -8,11 +8,34 @@
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <!-- build:css(.) styles/vendor.css -->
     <!-- bower:css -->
+    <link rel="stylesheet" href="bower_components/codemirror/lib/codemirror.css" />
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css(.tmp) styles/main.css -->
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
+    <script type="text/x-mathjax-config">
+        // <![CDATA[
+        MathJax.Hub.Config({ 
+            TeX: {extensions: ["AMSmath.js", "AMSsymbols.js"]},     
+            extensions: ["tex2jax.js"],
+            jax: ["input/TeX", "output/HTML-CSS"],
+            showProcessingMessages : false,
+            messageStyle : "none" ,    
+            showMathMenu: false ,
+            tex2jax: {
+                processEnvironments: true,
+                inlineMath: [ ['$','$'], ["\(","\)"] ],
+                displayMath: [ ['$$','$$'], ["\[","\]"] ],
+                preview : "none",
+                processEscapes: true
+            },
+            "HTML-CSS": { linebreaks: { automatic:true, width: "latex-container"} }
+        });
+        // ]]>
+    </script>
+    <script type="text/javascript" src="scripts/latex2html5.min.js"></script> 
   </head>
   <body ng-app="angularApp">
     <!--[if lt IE 7]>
@@ -40,6 +63,9 @@
     <!-- build:js(.) scripts/vendor.js -->
     <!-- bower:js -->
     <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/codemirror/lib/codemirror.js"></script>
+    <script src="bower_components/codemirror/mode/stex/stex.js"></script>
+    <script src="bower_components/angular-ui-codemirror/ui-codemirror.js"></script>
     <script src="bower_components/angular-animate/angular-animate.js"></script>
     <script src="bower_components/angular-cookies/angular-cookies.js"></script>
     <script src="bower_components/angular-resource/angular-resource.js"></script>
@@ -54,7 +80,10 @@
         <script src="scripts/controllers/main.js"></script>
         <script src="scripts/controllers/search.js"></script>
         <script src="scripts/controllers/about.js"></script>
+        <script src="scripts/controllers/edit.js"></script>
         <script src="scripts/directives/header.js"></script>
+        <script src="scripts/directives/latex2html5.js"></script>
+        <script src="scripts/services/shared.js"></script>
         <script src="scripts/factories/api.js"></script>
         <!-- endbuild -->
 </body>

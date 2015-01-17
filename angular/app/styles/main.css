@@ -98,6 +98,7 @@ body {
   color: #777;
   border-top: 1px solid #e5e5e5;
   font-size: 12px;
+  text-align: center;
 }
 .footer p{
     margin-left: auto;
@@ -136,13 +137,90 @@ body {
   background-color: #FFD27E;
 }
 
+/* Editor Css*/
+.CodeMirror{
+  margin-top: 0px;
+  margin-bottom: 0px;
+  width:500px;
+  height: 500px;
+  float:left;
+}
+
+/* latex output*/
+latex{
+  top:0px;
+  left:500px;
+  width:500px;
+  height:500px;
+  display:block;
+   border: 1px solid #e3e3e3;
+   overflow: scroll;
+
+}
+
+/* Mathepedia*/
+article > h1, 
+section > h3,
+.books h1 {
+  text-align: center;
+}
+
+.pspicture-view {
+  position: relative;
+  margin: auto;
+}
+
+span.tt {
+  font-family: courier;
+}
+
+span.rm {
+    font-family: 'Arbutus Slab', serif;
+}
+
+
+p.quotation {
+  padding: 0 0 0 15px;
+  margin: 0 0 20px;
+  font-size: 10pt;
+}
+
+.well {
+  margin-top: 20px;
+  min-height: 20px;
+  padding: 19px;
+  margin-bottom: 20px;
+  background-color: #f5f5f5;
+  border: 1px solid #e3e3e3;
+  -webkit-border-radius: 4px;
+     -moz-border-radius: 4px;
+          border-radius: 4px;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+     -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+          box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+}
+img {
+  height: auto;
+  max-width: 100%;
+  vertical-align: middle;
+  border: 0;
+  -ms-interpolation-mode: bicubic;
+}
+
+pre {
+  overflow: auto;
+}
+.latex-container {
+  width: auto;
+}
+
+
 /* Customize container */
 @media (min-width: 1000px) {
   .container {
     max-width: 1000px;
     margin-left: auto;
     margin-right: auto;
-    text-align: center;
   }
 }
 .container-narrow > hr {
@@ -178,7 +256,7 @@ body {
   }
   /* Space out the masthead */
   .header {
-    margin-bottom: 30px;
+    margin-bottom: 20px;
   }
   /* Remove the bottom border on the jumbotron for visual effect */
   .jumbotron {

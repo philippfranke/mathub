@@ -2,7 +2,7 @@
 angular.module('angularApp')
     .factory('api', ['$http', function($http) {
 
-    var urlBase = 'http://localhost:8080';
+    var urlBase = 'http://192.168.59.103';
     var api = {};
 
     api.getAllUnis = function () {
@@ -47,6 +47,10 @@ angular.module('angularApp')
 
     api.getAssignments = function (uniID,lectureID) {
         return $http.get(urlBase + '/unis/' + uniID + '/lectures/' + lectureID + '/assignments');
+    };
+
+    api.getAssignment = function (uniID,lectureID,assignmentID) {
+        return $http.get(urlBase + '/unis/' + uniID + '/lectures/' + lectureID + '/assignments/' + assignmentID);
     };
 
 

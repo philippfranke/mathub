@@ -1,6 +1,6 @@
 'use strict';
 angular.module('angularApp')
-  .controller('SearchCtrl', function ($scope, api) {
+  .controller('SearchCtrl', function ($scope, api, $location, sharedProperties) {
   	$scope.showLecture = false;
   	$scope.showAssignment = false;
   	$scope.data = 0;
@@ -44,17 +44,24 @@ angular.module('angularApp')
   		$scope.showAssignment = true;
   	}
 
-  	$scope.Handler = function(id,unid,userid){
-  		console.log(id+'..'+unid+'..'+userid);
-  		if(angular.isUndefined(id)){
-  			fillUnis();
-  		}else{
-  			if(angular.isUndefined(unid)){
-  				fillLectures(id);
-			}else{
-				fillAssignments(unid,id);
-			}
-  		}
+  	$scope.Handler = function(id,unid,lectureid){
+      if(!angular.isUndefined(lectureid)){
+        sharedProperties.setLectEdit(lectureid);
+        sharedProperties.setAssiEdit(id);
+        $location.path('/edit');
+      }else{
+        if(angular.isUndefined(id)){
+          fillUnis();
+        }else{
+          if(angular.isUndefined(unid)){
+              fillLectures(id);
+          }else{
+            sharedProperties.setUniEdit(unid);
+            fillAssignments(unid,id);
+          }
+        }
+
+      }
   	};
 
   	fillUnis();
