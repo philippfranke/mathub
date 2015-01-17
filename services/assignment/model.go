@@ -31,7 +31,7 @@ func All(assignment string) (Assignments, error) {
 
 func Get(id string) (Assignment, error) {
 	var assignment Assignment
-	err := DB.Get(&assignment, "SELECT id, lecture_id, user_id, due_date, commit_hash, tex FROM assignments WHERE id = ? and lecture_id = ?;", id)
+	err := DB.Get(&assignment, "SELECT id, lecture_id, user_id, due_date, commit_hash, tex FROM assignments WHERE id = ?;", id)
 	if err != nil {
 		return Assignment{}, err
 	}
@@ -66,10 +66,28 @@ func GetLastId() (int64, error) {
 	return lastId, nil
 }
 
-func Update(assignment Assignment) error {
-	_, err := DB.Exec("UPDATE assignments SET commit_hash = ? WHERE id = ?;", assignment.CommitHash, assignment.Id)
+func UpdateId(assignment Assignment) error {
+	_, err := DB.Exec("UPDATE assignments SET commit_hash = ?, tex= WHERE id = ?;", assignment.CommitHash, assignment.Id)
 	if err != nil {
 		return err
 	}
+	return nil
+}
+
+func Update(assignment Assignment) error {
+	_, err := DB.Exec("UPDATE assignments SET tex = ?, commit_hash = ? WHERE id = ?;", assignment.Tex, assignment.CommitHash, assignment.Id)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func Destroy(id string) error {
+	_, err := DB.Exec("DELETE FROM assignments WHERE id = ?;", id)
+
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
