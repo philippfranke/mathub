@@ -10,6 +10,7 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/philippfranke/mathub/services/lecture"
 	"github.com/philippfranke/mathub/services/university"
+	"github.com/philippfranke/mathub/services/version"
 	. "github.com/philippfranke/mathub/shared"
 )
 
@@ -70,6 +71,13 @@ func CreateHandler(w http.ResponseWriter, r *http.Request, u university.Universi
 
 	assignment.CommitHash = rp.LastHash()
 	UpdateId(assignment)
+	v := version.Version{
+		CommitHash:    assignment.CommitHash,
+		ReferenceType: "assignments",
+		ReferenceId:   assignment.Id,
+		UserId:        1,
+	}
+	err = version.Create(v)
 	return WriteJSON(w, assignment)
 }
 
@@ -123,6 +131,20 @@ func UpdateHandler(w http.ResponseWriter, r *http.Request, u university.Universi
 	assignment.CommitHash = rp.LastHash()
 
 	err = Update(assignment)
+	if err != nil {
+		return err
+	}
+
+	v := version.Version{
+		CommitHash:    assignment.CommitHash,
+		ReferenceType: "assignments",
+		ReferenceId:   assignment.Id,
+		UserId:        1,
+	}
+	err = version.Create(v)
+	if err != nil {
+		return err
+	}
 
 	return WriteJSON(w, assignment)
 }
@@ -140,6 +162,15 @@ func DestroyHandler(w http.ResponseWriter, r *http.Request, u university.Univers
 	err := Destroy(mux.Vars(r)["assignment"])
 	if err != nil {
 		return err
+	}
+
+	out, err := rp.Status()
+	if err != nil {
+		return err
+	}
+	if out == "" {
+		w.WriteHeader(http.StatusNoContent)
+		return nil
 	}
 
 	if err := rp.Commit("bla", "Tim Trompete <mail@mail.com>"); err != nil {

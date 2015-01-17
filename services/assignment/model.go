@@ -6,10 +6,18 @@ type Assignment struct {
 	Id        int64     `json:"id"`
 	LectureId int64     `json:"lecture_id" db:"lecture_id"`
 	UserID    int64     `json:"user_id" db:"user_id"`
+	Name      string    `json:"name" db:"name"`
 	DueDate   time.Time `json:"due_date" db:"due_date"`
 	Tex       string    `json:"tex"`
 
 	CommitHash string `json:"-" db:"commit_hash"`
+}
+
+type Version struct {
+	CommitHash    string `db:"commit_hash"`
+	ReferenceType string `db:"ref_type"`
+	ReferenceId   int64  `db:"ref_id"`
+	Number        int64  `db:"version"`
 }
 
 type Assignments []Assignment
@@ -17,7 +25,7 @@ type Assignments []Assignment
 func All(assignment string) (Assignments, error) {
 	var assignments Assignments
 
-	err := DB.Select(&assignments, "SELECT id, lecture_id, user_id, due_date, commit_hash, tex FROM assignments WHERE lecture_id = ? ORDER BY due_date;", assignment)
+	err := DB.Select(&assignments, "SELECT id, lecture_id, user_id, name, due_date, commit_hash, tex FROM assignments WHERE lecture_id = ? ORDER BY due_date;", assignment)
 	if err != nil {
 		return nil, err
 	}
@@ -40,7 +48,7 @@ func Get(id string) (Assignment, error) {
 }
 
 func Create(assignment Assignment) (Assignment, error) {
-	res, err := DB.Exec("INSERT INTO assignments (id, lecture_id, user_id, due_date, commit_hash,tex) VALUES(NULL, ?, 0, 0,0,?);", assignment.LectureId, assignment.Tex)
+	res, err := DB.Exec("INSERT INTO assignments (id, lecture_id, user_id, name, due_date, commit_hash,tex) VALUES(NULL, ?, 0, ?, 0,0,?);", assignment.LectureId, assignment.Name, assignment.Tex)
 	if err != nil {
 		return Assignment{}, err
 	}
@@ -68,18 +76,21 @@ func GetLastId() (int64, error) {
 
 func UpdateId(assignment Assignment) error {
 	_, err := DB.Exec("UPDATE assignments SET commit_hash = ?, tex= WHERE id = ?;", assignment.CommitHash, assignment.Id)
+
 	if err != nil {
 		return err
 	}
-	return nil
+
+	return err
 }
 
 func Update(assignment Assignment) error {
-	_, err := DB.Exec("UPDATE assignments SET tex = ?, commit_hash = ? WHERE id = ?;", assignment.Tex, assignment.CommitHash, assignment.Id)
+	_, err := DB.Exec("UPDATE assignments SET name = ?, tex = ?, commit_hash = ? WHERE id = ?;", assignment.Name, assignment.Tex, assignment.CommitHash, assignment.Id)
 	if err != nil {
 		return err
 	}
-	return nil
+
+	return err
 }
 
 func Destroy(id string) error {

@@ -1,9 +1,9 @@
 
-
 CREATE TABLE `assignments` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `lecture_id` int(11) unsigned NOT NULL,
   `user_id` int(11) unsigned NOT NULL,
+  `name` varchar(255) NOT NULL,
   `due_date` timestamp NOT NULL,
   `commit_hash` varchar(255) NOT NULL,
   `tex` text NOT NULL,
