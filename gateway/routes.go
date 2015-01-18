@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/philippfranke/mathub/services/assignment"
+	"github.com/philippfranke/mathub/services/comment"
 	"github.com/philippfranke/mathub/services/lecture"
 	"github.com/philippfranke/mathub/services/university"
 	"github.com/philippfranke/mathub/services/user"
@@ -35,5 +36,9 @@ func Entrypoints() Routes {
 		"lecture_url":     &Route{"/unis/{uni}/lectures/{lecture}", lecture.Router()},
 		"assignments_url": &Route{"/unis/{uni}/lectures/{lecture}/assignments", assignment.Router(*dataPath)},
 		"assignment_url":  &Route{"/unis/{uni}/lectures/{lecture}/assignments/{assignment}", assignment.Router(*dataPath)},
+
+		"commentTree_url":   &Route{"/comments/{refType}/{refId}", comment.Router()},
+		"commentCreate_url": &Route{"/comments", comment.Router()},
+		"comment_url":       &Route{"/comments/{comment}", comment.Router()},
 	}
 }
