@@ -28,9 +28,9 @@ func Router() http.Handler {
 
 	r := mux.NewRouter()
 
-	r.Handle("/unis/{uni}/lectures", Handler(filterHandler(IndexHandler))).Methods("GET", "HEAD")
+	r.Handle("/unis/{uni}/lectures", Handler(filterHandler(IndexHandler))).Methods("GET", "HEAD", "OPTIONS")
 	r.Handle("/unis/{uni}/lectures", Handler(filterHandler(CreateHandler))).Methods("POST")
-	r.Handle("/unis/{uni}/lectures/{lecture}", Handler(filterHandler(ShowHandler))).Methods("GET", "HEAD")
+	r.Handle("/unis/{uni}/lectures/{lecture}", Handler(filterHandler(ShowHandler))).Methods("GET", "HEAD", "OPTIONS")
 	r.Handle("/unis/{uni}/lectures/{lecture}", Handler(filterHandler(UpdateHandler))).Methods("PATCH")
 	r.Handle("/unis/{uni}/lectures/{lecture}", Handler(filterHandler(DestroyHandler))).Methods("DELETE")
 

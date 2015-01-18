@@ -31,8 +31,8 @@ func Router(path string) http.Handler {
 
 	r := mux.NewRouter()
 
-	r.Handle("/unis/{uni}/lectures/{lecture}/assignments", Handler(filterHandler(IndexHandler))).Methods("GET", "HEAD")
-	r.Handle("/unis/{uni}/lectures/{lecture}/assignments/{assignment}", Handler(filterHandler(ShowHandler))).Methods("GET", "HEAD")
+	r.Handle("/unis/{uni}/lectures/{lecture}/assignments", Handler(filterHandler(IndexHandler))).Methods("GET", "HEAD", "OPTIONS")
+	r.Handle("/unis/{uni}/lectures/{lecture}/assignments/{assignment}", Handler(filterHandler(ShowHandler))).Methods("GET", "HEAD", "OPTIONS")
 	r.Handle("/unis/{uni}/lectures/{lecture}/assignments/{assignment}", Handler(filterHandler(UpdateHandler))).Methods("PATCH")
 	r.Handle("/unis/{uni}/lectures/{lecture}/assignments/{assignment}", Handler(filterHandler(DestroyHandler))).Methods("DELETE")
 	r.Handle("/unis/{uni}/lectures/{lecture}/assignments", Handler(filterHandler(CreateHandler))).Methods("POST")

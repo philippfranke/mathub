@@ -25,9 +25,9 @@ func init() {
 func Router() http.Handler {
 	r := mux.NewRouter()
 
-	r.Handle("/unis", Handler(IndexHandler)).Methods("GET", "HEAD")
+	r.Handle("/unis", Handler(IndexHandler)).Methods("GET", "HEAD", "OPTIONS")
 	r.Handle("/unis", Handler(CreateHandler)).Methods("POST")
-	r.Handle("/unis/{uni}", Handler(ShowHandler)).Methods("GET", "HEAD")
+	r.Handle("/unis/{uni}", Handler(ShowHandler)).Methods("GET", "HEAD", "OPTIONS")
 	r.Handle("/unis/{uni}", Handler(UpdateHandler)).Methods("PATCH")
 	r.Handle("/unis/{uni}", Handler(DestroyHandler)).Methods("DELETE")
 
