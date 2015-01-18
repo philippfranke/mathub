@@ -49,7 +49,7 @@ func Create(lecture Lecture) (Lecture, error) {
 }
 
 func Update(lecture Lecture) error {
-	_, err := DB.Exec("UPDATE lectures SET university_id = ? and name = ? AND  WHERE id = ?;", lecture.UniversityId, lecture.Name, lecture.Id)
+	_, err := DB.Exec("UPDATE lectures SET university_id = ?, name = ?  WHERE id = ?;", lecture.UniversityId, lecture.Name, lecture.Id)
 	if err != nil {
 		return err
 	}
