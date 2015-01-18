@@ -1,9 +1,11 @@
-
-{{university}} / {{lecture}} / {{data.id}}
+<div class="editDescriptor">
+	{{university}} / {{lecture}} / {{data.id}} 
+	<span ng-click="saveTex()">Save</span>
+</div>
 
 <div>
 
-<ui-codemirror ui-codemirror-opts="editorOptions" ng-model="tex"></ui-codemirror>
+	<ui-codemirror ui-codemirror-opts="editorOptions" ng-model="tex"></ui-codemirror>
 
-<latex data="tex"></latex>
+	<latex data="tex"></latex>
 </div>

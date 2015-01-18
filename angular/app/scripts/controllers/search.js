@@ -21,6 +21,7 @@ angular.module('angularApp')
   	function getAssignments(uniID, lectureID){
   		api.getAssignments(uniID, lectureID)
 			.success(function(data){
+        console.log(data);
 				$scope.data = data;
 			});
   	}

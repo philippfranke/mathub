@@ -8,7 +8,18 @@ angular.module('angularApp')
   		mode: 'text/x-stex'
   	};
 
-  	$scope.tex = '...';
+  	$scope.tex = 'Loading ...';
+
+    $scope.saveTex = function(){
+      var resultTex = {
+        'tex': $scope.tex
+      };
+      resultTex.tex = resultTex.tex.replace('\\','\\\\');
+      api.updateAssignment(sharedProperties.getUniEdit(),sharedProperties.getLectEdit(),sharedProperties.getAssiEdit(),resultTex).success(function(){
+        $scope.saved =true;
+      });
+
+    };
 
 
 

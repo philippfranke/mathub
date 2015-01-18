@@ -12,10 +12,10 @@
 
 <ul class="searchResult">
 	<li ng-repeat="thing in data" ng-class-odd="'searchodd'" ng-click="Handler(thing.id,thing.university_id,thing.lecture_id)">
-		<span ng-if="thing.name !== NULL">
+		<span ng-if="thing.name !== ''">
 			{{thing.name}}
 		</span>
-		<span ng-if="thing.name === NULL">
+		<span ng-if="thing.name === ''">
 			{{thing.id}}
 		</span>
 	</li>

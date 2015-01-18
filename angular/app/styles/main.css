@@ -145,6 +145,17 @@ body {
   height: 500px;
   float:left;
 }
+.editDescriptor{
+  margin-bottom: 10px;
+}
+.editDescriptor span{
+  margin-left: 20px;
+  border: 1px solid #e3e3e3;
+  border-radius: 3px;
+  cursor:pointer;
+  padding:2px 2px;
+  color:#009933;
+}
 
 /* latex output*/
 latex{
