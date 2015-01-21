@@ -15,6 +15,12 @@ func (h Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	err := h(w, r)
+
+	// Cors
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Methods", "POST, GET, PATCH, DELETE, OPTIONS")
+	w.Header().Set("Access-Control-Allow-Headers", "origin, content-type, accept")
+
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		log.Println(err)
@@ -29,8 +35,6 @@ func WriteJSON(w http.ResponseWriter, i interface{}) error {
 	}
 
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
-	w.Header().Set("Access-Control-Allow-Origin", "*")
-	w.Header().Set("Access-Control-Allow-Methods", "POST, GET, PATCH, DELETE, OPTIONS")
 	w.Write(b)
 
 	return nil
