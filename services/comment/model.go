@@ -4,13 +4,15 @@ import "time"
 import "strconv"
 
 type Comment struct {
-	Id        int64     `json:"id" db:"id"`
-	RefType   string    `json:"ref_type" db:"ref_type"`
-	RefID     int64     `json:"ref_id" db:"ref_id"`
-	ParentID  int64     `json:"parent_id" db:"parent_id"`
-	UserID    int64     `json:"user_id" db:"user_id"`
-	Timestamp time.Time `json:"timestamp" db:"timestamp"`
-	Text      string    `json:"text" db:"text"`
+	Id         int64     `json:"id" db:"id"`
+	RefType    string    `json:"ref_type" db:"ref_type"`
+	RefID      int64     `json:"ref_id" db:"ref_id"`
+	RefVersion int64     `json:"ref_version" db:"ref_version"`
+	RefLine    int64     `json:"ref_line" db:"ref_line"`
+	ParentID   int64     `json:"parent_id" db:"parent_id"`
+	UserID     int64     `json:"user_id" db:"user_id"`
+	Timestamp  time.Time `json:"timestamp" db:"timestamp"`
+	Text       string    `json:"text" db:"text"`
 }
 type CommentNode struct {
 	Node     Comment       `json:"comment"`
@@ -22,7 +24,7 @@ type CommentTree []CommentNode
 func All(refType, refId string) (CommentTree, error) {
 	var comments Comments
 
-	err := DB.Select(&comments, "SELECT id, ref_type, ref_id, parent_id, user_id, timestamp, text FROM comments WHERE ref_type = ? AND ref_id =? ORDER BY timestamp;", refType, refId)
+	err := DB.Select(&comments, "SELECT id, ref_type, ref_id, ref_version, ref_line, parent_id, user_id, timestamp, text FROM comments WHERE ref_type = ? AND ref_id =? ORDER BY timestamp;", refType, refId)
 	if err != nil {
 		return nil, err
 	}
@@ -51,7 +53,7 @@ func BuildCommentTree(parentId int64, comments Comments) CommentTree {
 
 func Get(id string) (Comment, error) {
 	var comment Comment
-	err := DB.Get(&comment, "SELECT id, ref_type, ref_id, parent_id, user_id, timestamp, text  FROM comments WHERE id = ?;", id)
+	err := DB.Get(&comment, "SELECT id, ref_type, ref_id, ref_version, ref_line, parent_id, user_id, timestamp, text  FROM comments WHERE id = ?;", id)
 	if err != nil {
 		return Comment{}, err
 	}
@@ -60,7 +62,7 @@ func Get(id string) (Comment, error) {
 }
 
 func Create(comment Comment) (Comment, error) {
-	res, err := DB.Exec("INSERT INTO comments (id, ref_type, ref_id, parent_id, user_id, timestamp, text) VALUES(NULL, ?, ?, ?, ?, ?,?);", comment.RefType, comment.RefID, comment.ParentID, comment.UserID, comment.Timestamp, comment.Text)
+	res, err := DB.Exec("INSERT INTO comments (id, ref_type, ref_id, ref_version, ref_line, parent_id, user_id, timestamp, text) VALUES(NULL, ?, ?, ?, ?, ?, ?, ?,?);", comment.RefType, comment.RefID, comment.RefVersion, comment.RefLine, comment.ParentID, comment.UserID, comment.Timestamp, comment.Text)
 	if err != nil {
 		return Comment{}, err
 	}
@@ -75,7 +77,7 @@ func Create(comment Comment) (Comment, error) {
 }
 
 func Update(comment Comment) error {
-	_, err := DB.Exec("UPDATE comments SET ref_type=? ,ref_id=?, parent_id=? ,user_id=? ,timestamp=?, text=? WHERE id = ?;", comment.RefType, comment.RefID, comment.ParentID, comment.UserID, comment.Timestamp, comment.Text, comment.Id)
+	_, err := DB.Exec("UPDATE comments SET ref_type=? ,ref_id=?, ref_version=?, ref_line=?, parent_id=? ,user_id=? ,timestamp=?, text=? WHERE id = ?;", comment.RefType, comment.RefID, comment.RefVersion, comment.RefLine, comment.ParentID, comment.UserID, comment.Timestamp, comment.Text, comment.Id)
 	if err != nil {
 		return err
 	}
@@ -90,7 +92,7 @@ func Destroy(id string) error {
 	}
 	var comments Comments
 
-	err = DB.Select(&comments, "SELECT id, ref_type, ref_id, parent_id, user_id, timestamp, text FROM comments WHERE ref_type = ? AND ref_id =? ORDER BY timestamp;", comment.RefType, comment.RefID)
+	err = DB.Select(&comments, "SELECT id, ref_type, ref_id, ref_version, ref_line, parent_id, user_id, timestamp, text FROM comments WHERE ref_type = ? AND ref_id =? ORDER BY timestamp;", comment.RefType, comment.RefID)
 	if err != nil {
 		return err
 	}

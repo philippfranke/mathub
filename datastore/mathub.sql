@@ -16,6 +16,8 @@ CREATE TABLE `comments` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `ref_type` varchar(255) NOT NULL,
   `ref_id` int(11) unsigned NOT NULL,
+  `ref_version` int(11) unsigned NOT NULL,
+  `ref_line` int(11) unsigned NOT NULL,
   `parent_id` int(11) unsigned NOT NULL,
   `user_id` int(11) unsigned NOT NULL,
   `timestamp` timestamp NOT NULL,
