@@ -8,6 +8,27 @@
 	<li ng-show="showAssignment">
 		Assignment
 	</li>
+	<li>
+		<a href class="searchAdd fa fa-plus" ng-click="addItem(false)" ng-show="!addUniversity && !addLecture && !addAssignment"></a>
+	</li>
+	<li ng-show="addUniversity">
+		<form>
+  			<input placeholder="Universityname" ng-model="universityData"></input>
+  		</form>
+	</li>
+	<li ng-show="addLecture">
+		<form>
+  			<input placeholder="Lecturename" ng-model="lectureData"></input>
+  		</form>
+	</li>
+	<li ng-show="addAssignment">
+		<form>
+  			<input placeholder="Assignmentname" ng-model="assignmentData"></input>
+  		</form>
+	</li>
+	<li>
+		<a href class="searchAdd fa fa-check" ng-click="addItem(true)" ng-show="addUniversity || addLecture || addAssignment"></a>
+	</li>
 </ul>
 
 <ul class="searchResult">

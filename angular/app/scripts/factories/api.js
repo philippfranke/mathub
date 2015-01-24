@@ -53,9 +53,12 @@ angular.module('angularApp')
         return $http.get(urlBase + '/unis/' + uniID + '/lectures/' + lectureID + '/assignments/' + assignmentID);
     };
 
+    api.createAssignment = function(uniID,lectureID,data){
+        return $http.post(urlBase + '/unis/' + uniID + '/lectures/' + lectureID + '/assignments',data);
+    };
+
     api.updateAssignment = function (uniID,lectureID,assignmentID,tex){
         var url = urlBase + '/unis/' + uniID + '/lectures/' + lectureID + '/assignments/' + assignmentID;
-        console.log(tex);
         return $http.patch(url,tex);
     };
 
