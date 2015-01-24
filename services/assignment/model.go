@@ -13,13 +13,6 @@ type Assignment struct {
 	CommitHash string `json:"-" db:"commit_hash"`
 }
 
-type Version struct {
-	CommitHash    string `db:"commit_hash"`
-	ReferenceType string `db:"ref_type"`
-	ReferenceId   int64  `db:"ref_id"`
-	Number        int64  `db:"version"`
-}
-
 type Assignments []Assignment
 
 func All(assignment string) (Assignments, error) {

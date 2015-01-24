@@ -1,16 +1,25 @@
 package assignment
 
 import (
+	"fmt"
 	"log"
 	"os"
 	"os/exec"
 	"path/filepath"
+	"strings"
 )
 
 type Repo struct {
 	uni     string
 	lecture string
 	dir     string
+}
+
+func NewRepo(uni, lecture string) *Repo {
+	return &Repo{
+		uni:     uni,
+		lecture: lecture,
+	}
 }
 
 func (r *Repo) Open() error {
@@ -97,5 +106,14 @@ func (r *Repo) LastHash() string {
 	gitRev.Dir = r.dir
 	out, _ := gitRev.CombinedOutput()
 	log.Printf("gitRev: %s", out)
+	return strings.TrimSuffix(string(out), "\n")
+}
+
+func (r *Repo) ShowFile(filename, hash string) string {
+	file := fmt.Sprintf("%s:%s", hash, filename)
+	gitShow := exec.Command("git", "show", file)
+	gitShow.Dir = r.dir
+	out, _ := gitShow.CombinedOutput()
+	log.Printf("gitShow: %s", out)
 	return string(out)
 }

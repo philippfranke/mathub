@@ -10,9 +10,27 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/philippfranke/mathub/services/lecture"
 	"github.com/philippfranke/mathub/services/university"
-	"github.com/philippfranke/mathub/services/version"
 	. "github.com/philippfranke/mathub/shared"
 )
+
+type Version struct {
+	CommitHash    string `db:"commit_hash"`
+	ReferenceType string `json:"-,omitempty" db:"ref_type"`
+	ReferenceId   int64  `json:"-,omitempty" db:"ref_id"`
+	UserId        int64  `db:"user_id"`
+	Number        int64  `db:"version"`
+	Tex           string `json:"tex,omitempty"`
+}
+
+func CreateVersion(v Version) error {
+	_, err := DB.Exec("INSERT INTO versions (SELECT ?,?,?,0, IFNULL((max(version)+1),1)  FROM versions where ref_Type=? and ref_id=?)", v.CommitHash, v.ReferenceType, v.ReferenceId, v.ReferenceType, v.ReferenceId)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
 
 func IndexHandler(w http.ResponseWriter, r *http.Request, u university.University, l lecture.Lecture) error {
 	assignment, err := All(strconv.FormatInt(l.Id, 10))
@@ -71,13 +89,13 @@ func CreateHandler(w http.ResponseWriter, r *http.Request, u university.Universi
 
 	assignment.CommitHash = rp.LastHash()
 	UpdateId(assignment)
-	v := version.Version{
+	v := Version{
 		CommitHash:    assignment.CommitHash,
 		ReferenceType: "assignments",
 		ReferenceId:   assignment.Id,
 		UserId:        1,
 	}
-	err = version.Create(v)
+	err = CreateVersion(v)
 	return WriteJSON(w, assignment)
 }
 
@@ -135,13 +153,13 @@ func UpdateHandler(w http.ResponseWriter, r *http.Request, u university.Universi
 		return err
 	}
 
-	v := version.Version{
+	v := Version{
 		CommitHash:    assignment.CommitHash,
 		ReferenceType: "assignments",
 		ReferenceId:   assignment.Id,
 		UserId:        1,
 	}
-	err = version.Create(v)
+	err = CreateVersion(v)
 	if err != nil {
 		return err
 	}
