@@ -8,6 +8,8 @@ angular.module('angularApp')
   		mode: 'text/x-stex'
   	};
 
+    $scope.assignment = '';
+
   	$scope.tex = 'Loading ...';
 
     $scope.saveTex = function(){
@@ -27,7 +29,7 @@ angular.module('angularApp')
   		api.getAssignment(uniID, lectureID, AssiID)
 			.success(function(data){
 				$scope.data = data;
-				$scope.tex = data.tex;
+				$scope.tex = data.tex.replace('\\\\','\\');
 			});
   	}
 

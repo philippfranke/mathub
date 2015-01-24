@@ -3,6 +3,9 @@ angular.module('angularApp')
   .controller('SearchCtrl', function ($scope, api, $location, sharedProperties) {
   	$scope.showLecture = false;
   	$scope.showAssignment = false;
+    $scope.addUniversity = false;
+    $scope.addLecture = false;
+    $scope.addAssignment = false;
   	$scope.data = 0;
   	$scope.uni = 0;
 
@@ -21,13 +24,15 @@ angular.module('angularApp')
   	function getAssignments(uniID, lectureID){
   		api.getAssignments(uniID, lectureID)
 			.success(function(data){
-        console.log(data);
 				$scope.data = data;
 			});
   	}
 
   	function fillUnis(){
   		getAllUnis();
+      $scope.addUniversity = false;
+      $scope.addLecture = false;
+      $scope.addAssignment = false;
   		$scope.showLecture = false;
   		$scope.showAssignment = false;
   	}
@@ -35,12 +40,20 @@ angular.module('angularApp')
   	function fillLectures(unid){
   		$scope.uni = unid;
   		getLectures(unid);
+      $scope.addUniversity = false;
+      $scope.addLecture = false;
+      $scope.addAssignment = false;
   		$scope.showLecture = true;
   		$scope.showAssignment = false;
   	}
 
   	function fillAssignments(unid,lecid){
+      $scope.uni = unid;
+      $scope.lect = lecid;
   		getAssignments(unid,lecid);
+      $scope.addUniversity = false;
+      $scope.addLecture = false;
+      $scope.addAssignment = false;
   		$scope.showLecture = true;
   		$scope.showAssignment = true;
   	}
@@ -64,6 +77,56 @@ angular.module('angularApp')
 
       }
   	};
+
+    $scope.addItem = function(complete){
+      var sendData = {};
+      //uni add
+      if(!$scope.showAssignment && !$scope.showLecture){
+        if(complete){
+          sendData = {
+            'name':$scope.universityData
+          };
+          api.createUni(sendData)
+          .success(function(){
+            $scope.addUniversity = false;
+            fillUnis();
+          });
+        }else{
+          $scope.addUniversity = true;
+        }
+      }
+      //lecture add
+      if(!$scope.showAssignment && $scope.showLecture ){
+        if(complete){
+          sendData = {
+            'name':$scope.lectureData
+          };
+          api.createLecture($scope.uni,sendData)
+          .success(function(){
+            $scope.addLecture = false;
+            fillLectures($scope.uni);
+          });
+        }else{
+          $scope.addLecture = true;
+        }
+      }
+      //assignment add
+      if($scope.showAssignment && $scope.showLecture ){
+        if(complete){
+          sendData = {
+            'name':$scope.assignmentData,
+            'tex':''
+          };
+          api.createAssignment($scope.uni,$scope.lect,sendData)
+          .success(function(){
+            $scope.addAssignment = false;
+            fillAssignments($scope.uni,$scope.lect);
+          });
+        }else{
+          $scope.addAssignment = true;
+        }
+      }
+    };
 
   	fillUnis();
   });
