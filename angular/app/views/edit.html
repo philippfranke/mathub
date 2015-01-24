@@ -1,5 +1,14 @@
 <div class="editDescriptor">
-	{{university}} / {{lecture}} / {{data.id}} 
+	{{university}} / {{lecture}} /
+	<tag ng-if="assignment !== ''">
+		{{assignment.name}} /
+	</tag>
+	<tag ng-if="data.name !== ''">
+			{{data.name}}
+	</tag>
+	<tag ng-if="data.name === ''">
+		{{data.id}}
+	</tag>
 	<span ng-click="saveTex()">Save</span>
 </div>
 
