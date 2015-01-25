@@ -78,7 +78,7 @@ func UpdateId(assignment Assignment) error {
 }
 
 func Update(assignment Assignment) error {
-	_, err := DB.Exec("UPDATE assignments SET name = ?, tex = ?, commit_hash = ? WHERE id = ?;", assignment.Name, assignment.Tex, assignment.CommitHash, assignment.Id)
+	_, err := DB.Exec("UPDATE assignments SET name = ?, tex = ?, commit_hash = ?, due_date = ? WHERE id = ?;", assignment.Name, assignment.Tex, assignment.CommitHash, assignment.DueDate, assignment.Id)
 	if err != nil {
 		return err
 	}

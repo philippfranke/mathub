@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"net/http"
 	"path/filepath"
+	"reflect"
 	"strconv"
 
 	"github.com/gorilla/mux"
@@ -121,6 +122,19 @@ func UpdateHandler(w http.ResponseWriter, r *http.Request, u user.User) error {
 		return nil
 	} else if err != nil {
 		return err
+	}
+
+	solutionTypes := reflect.TypeOf(Solution{})
+	updateValues := reflect.ValueOf(&solution)
+
+	for i := 0; i < solutionTypes.NumField(); i++ {
+		var comp = reflect.New(solutionTypes.Field(i).Type).Elem().Interface()
+
+		if updateValues.Elem().Field(i).Interface() == comp {
+			fmt.Printf("%s: %v %v \n", solutionTypes.Field(i).Name, reflect.ValueOf(&original).Elem().Field(i).Interface(), comp)
+			val := reflect.ValueOf(&original).Elem().Field(i)
+			updateValues.Elem().Field(i).Set(val)
+		}
 	}
 
 	if solution.UserId == 0 {

@@ -64,7 +64,7 @@ func GetLastId() (int64, error) {
 }
 
 func UpdateId(solution Solution) error {
-	_, err := DB.Exec("UPDATE solutions SET commit_hash = ?, tex= WHERE id = ?;", solution.CommitHash, solution.Id)
+	_, err := DB.Exec("UPDATE solutions SET commit_hash = ? WHERE id = ?;", solution.CommitHash, solution.Id)
 
 	if err != nil {
 		return err
@@ -74,7 +74,7 @@ func UpdateId(solution Solution) error {
 }
 
 func Update(solution Solution) error {
-	_, err := DB.Exec("UPDATE solutions SET tex = ?, commit_hash = ? WHERE id = ?;", solution.Tex, solution.CommitHash, solution.Id)
+	_, err := DB.Exec("UPDATE solutions SET assignment_id = ?, tex = ?, commit_hash = ? WHERE id = ?;", solution.AssignmentId, solution.Tex, solution.CommitHash, solution.Id)
 	if err != nil {
 		return err
 	}
