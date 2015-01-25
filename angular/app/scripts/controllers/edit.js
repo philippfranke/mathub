@@ -29,17 +29,29 @@ angular.module('angularApp')
       };
       resultTex.tex = resultTex.tex.replace('\\','\\\\');
       if($scope.mode === 'ass'){
-        api.updateAssignment(sharedProperties.getUniEdit(),sharedProperties.getLectEdit(),sharedProperties.getAssiEdit(),resultTex).success(function(){
+        api.updateAssignment(sharedProperties.getUni(),sharedProperties.getLect(),sharedProperties.getAssi(),resultTex).success(function(){
           $scope.saved =true;
         });
       }else{
-        api.updateSolution($scope.userId,sharedProperties.getSolEdit(),resultTex).success(function(){
+        api.updateSolution($scope.userId,sharedProperties.getSol(),resultTex).success(function(){
           $scope.saved =true;
         });
       }
 
     };
 
+    $scope.showComments = function(){
+      console.log('comments');
+      $location.path('/comment');
+    };
+
+    $scope.showVersions = function(){
+      console.log('versions');
+    };
+
+    $scope.view = function(){
+      console.log('view');
+    };
 
 
   	function showAssignment(uniID, lectureID, AssiID){
@@ -97,10 +109,10 @@ angular.module('angularApp')
     }
 
   	function getShared(){
-  		var uni = sharedProperties.getUniEdit();
-  		var lect = sharedProperties.getLectEdit();
-  		var assi = sharedProperties.getAssiEdit();
-      var sol = sharedProperties.getSolEdit();
+  		var uni = sharedProperties.getUni();
+  		var lect = sharedProperties.getLect();
+  		var assi = sharedProperties.getAssi();
+      var sol = sharedProperties.getSol();
   		if(assi === 0||lect ===0|| uni ===0 || sol ===0){
   			$location.path('/search');
   		}else{

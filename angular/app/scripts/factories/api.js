@@ -10,6 +10,10 @@ angular.module('angularApp')
         return $http.post(urlBase + '/login',credentials);
     };
 
+    api.getUser = function (userID) {
+        return $http.get(urlBase + '/users/' + userID);
+    };
+
     api.createUser = function (credentials) {
         return $http.post(urlBase + '/users',credentials);
     };
@@ -91,6 +95,12 @@ angular.module('angularApp')
 
     api.updateSolution =  function (userID,solID,tex){
         return $http.patch(urlBase + '/users/' + userID + '/solutions/'+solID,tex);
+    };
+
+    //comment stuff
+
+    api.getComments = function (reftype, refId){
+        return $http.get(urlBase + '/comments/' + reftype+'/'+refId);
     };
 
     return api;

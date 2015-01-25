@@ -31,9 +31,7 @@
   		</form>
 	</li>
 	<li ng-show="addSolution">
-		<form>
-  			<input placeholder="Solutionname" ng-model="solutiondataData"></input>
-  		</form>
+		Are you sure?
 	</li>
 	<li>
 		<a href class="searchAdd fa fa-check" ng-click="addItem(true)" ng-show="addUniversity || addLecture || addAssignment || addSolution"></a>
@@ -55,8 +53,11 @@
 		<span ng-if="thing.name !== ''">
 			{{thing.name}}
 		</span>
-		<span ng-if="thing.name === '' || showSolution">
+		<span ng-if="thing.name === ''">
 			{{thing.id}}
+		</span>
+		<span ng-if="showSolution">
+			by {{thing.username}}
 		</span>
 		<span title="show solutions" ng-if="!showSolution" class="searchInteractions clickable" ng-click="fillSolutions(thing.id)">
 			<i class="fa fa-file"></i>

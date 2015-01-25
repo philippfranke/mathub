@@ -6,29 +6,30 @@ angular.module('angularApp')
         var assiEdit = 0;
         var solEdit = 0;
 
+
         return {
-            getUniEdit: function () {
+            getUni: function () {
                 return uniEdit;
             },
-            setUniEdit: function(value) {
+            setUni: function(value) {
                 uniEdit = value;
             },
-            getLectEdit: function () {
+            getLect: function () {
                 return lectEdit;
             },
-            setLectEdit: function(value) {
+            setLect: function(value) {
                 lectEdit = value;
             },
-            getAssiEdit: function () {
+            getAssi: function () {
                 return assiEdit;
             },
-            setAssiEdit: function(value) {
+            setAssi: function(value) {
                 assiEdit = value;
             },
-            getSolEdit: function () {
+            getSol: function () {
                 return solEdit;
             },
-            setSolEdit: function(value) {
+            setSol: function(value) {
                 solEdit = value;
             }
         };

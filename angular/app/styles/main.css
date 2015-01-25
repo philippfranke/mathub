@@ -237,13 +237,28 @@ a:visited{
 .editDescriptor{
   margin-bottom: 10px;
 }
-.editDescriptor span{
-  margin-left: 20px;
-  border: 1px solid #e3e3e3;
-  border-radius: 3px;
+.editcontrol i{
+  font-size: large;
+  margin-left: 10px;
   cursor:pointer;
+  float:right;
   padding:2px 2px;
-  color:#009933;
+  color:#F33;
+}
+
+/*comment css*/
+.codesection {
+  width:420px;
+  background-color: #3F3;
+}
+.commentsection {
+  width:650px;
+  background-color: #F33;
+}
+.linesection {
+  width:30px;
+  text-align: center;
+  background-color: #FFD27E;
 }
 
 /* latex output*/

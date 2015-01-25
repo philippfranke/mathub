@@ -49,14 +49,25 @@ angular.module('angularApp')
     function getSolutions(assignmentID){
       api.getSolutions($scope.userId)
       .success(function(data){
-        var correctData = [];
+        $scope.correctData=[];
         for(var i = 0; i < data.length; i++){
           if(data[i].assignment_id === assignmentID){
-            correctData.push(data[i]);
+            getUsername(data[i].user_id,data ,i);
           }
         }
-        $scope.data = correctData;
+        $scope.data = $scope.correctData;
       });
+    }
+
+    function loopfunction(penis,data,i){
+      var e = [];
+        e = {
+        'id' : data[i].id,
+        'user_id' : data[i].user_id,
+        'assignment_id' : data[i].assignment_id,
+        'username' : penis
+      };
+      $scope.correctData.push(e);
     }
 
   	function fillUnis(){
@@ -115,6 +126,14 @@ angular.module('angularApp')
       $scope.showSolution = true;
     };
 
+
+    function getUsername(userId,data,i){
+      return api.getUser(userId)
+        .then(function (response){
+          return loopfunction(response.data.name,data,i);
+        });
+    }
+
   	$scope.Handler = function(id,unid){
       if(angular.isUndefined(id)){
         fillUnis();
@@ -122,21 +141,21 @@ angular.module('angularApp')
         if(angular.isUndefined(unid)){
             fillLectures(id);
         }else{
-          sharedProperties.setUniEdit(unid);
+          sharedProperties.setUni(unid);
           fillAssignments(unid,id);
         }
       }
   	};
 
     $scope.edit = function(contextID){
-      sharedProperties.setUniEdit($scope.uni);
-      sharedProperties.setLectEdit($scope.lect);
+      sharedProperties.setUni($scope.uni);
+      sharedProperties.setLect($scope.lect);
       if($scope.showAssignment && !$scope.showSolution){
-        sharedProperties.setAssiEdit(contextID);
-        sharedProperties.setSolEdit(-1);
+        sharedProperties.setAssi(contextID);
+        sharedProperties.setSol(-1);
       }else{
-        sharedProperties.setAssiEdit($scope.ass);
-        sharedProperties.setSolEdit(contextID);
+        sharedProperties.setAssi($scope.ass);
+        sharedProperties.setSol(contextID);
       }
       $location.path('/edit');
     };
