@@ -1,10 +1,9 @@
 <div class="header">
   <ul class="header">
   	<li>
-  		<div class="logo"></div>
-  	</li>
-  	<li>
-  		<a class="link" ng-href="/">Mathub</a>
+      <a ng-href="#/inbox">
+        <img src="images/logo.jpg" class="logo"></img>
+      </a>
   	</li>
   	<li>
   		<form>
@@ -18,26 +17,29 @@
     	<a class="link" ng-href="#/about">About</a>
     </li>
     <li>
-    	<a class="link" ng-href="/">Blog</a>
+    	<a class="link" ng-href="#/" >Blog</a>
     </li>
     <li>
-    	<a class="link" ng-href="/">Contact</a>
+    	<a class="link" ng-href="#/">Contact</a>
     </li>
-    <li>
-    	<img src="images/yeoman.png" class="avatar"></img>
+    <li ng-if="isLoggedIn">
+    	<div class="avatar fa fa-user fa-2x"></div>
     </li>
-    <li>
-    	<a class="username" ng-href="#/profile">Username</a>
+    <li ng-if="isLoggedIn">
+    	<a class="username" ng-href="#/profile">{{UserName}}</a>
     </li>
-    <li>
+    <li ng-if="isLoggedIn">
     	<a ng-href="#/inbox">
         <div class="inbox fa fa-inbox fa-2x"></div>
     	</a>
     </li>
-    <li>
+    <li ng-if="isLoggedIn">
     	<a ng-href="#/settings">
     		<div class="settings fa fa-cog fa-2x"></div>
     	</a>
+    </li>
+    <li ng-if="!isLoggedIn">
+      <a class="signup" ng-href="#/login"><div class="signin fa fa-sign-in fa-2x"></div></a>
     </li>
   </ul>
 </div>

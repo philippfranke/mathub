@@ -33,13 +33,16 @@ a:visited{
   padding-right: 15px;
 }
 
+.error {
+  color:#F33;
+}
 /* Custom page header */
 .header h3 {
   margin-top: 0;
   margin-bottom: 0;
   margin-left: 4px;
   margin-right: 20px;
-  line-height: 40px;
+  line-height: 60px;
 }
 .header ul{
   display:table;
@@ -57,15 +60,15 @@ a:visited{
   padding: 1px 15px;
   margin-top: 0;
   margin-bottom: 0;
-  line-height: 40px;
+  line-height: 60px;
   font-size: 18px;
   display: block;
 }
 
 .header form{
   width:200px;
-  padding: 8px 8px;
-  margin-right: 20px;
+  padding: 20px 8px;
+  margin-right: 10px;
 }
 .header input{
   width:100%;
@@ -80,34 +83,53 @@ a:visited{
 }
 
 .logo {
-  width: 40px;
-  height:40px;
-  background-color: #FF9933;
+  width: 60px;
+  height:60px;
 }
 
 .avatar {
-  width: 40px;
-  height:40px;
-  margin-left:80px;
+  width: 60px;
+  height:60px;
+  margin-left:145px;
 }
 .username{
   text-decoration: none;
   display: block;
-  line-height: 40px;
+  line-height: 60px;
   font-size: 18px;
 }
 .inbox{
-  width: 30px;
+  text-align:center;
+  line-height: 60px;
+  width: 40px;
   height:30px;
   margin-left:10px;
-  margin-top:5px;
+  margin-top:15px;
 }
 .settings{
-  width: 30px;
+  text-align:center;
+  line-height: 60px;
+  width: 40px;
   height:30px;
   margin-left:10px;
-  margin-top:5px;
+  margin-top:15px;
 }
+.signup {
+  margin-left:320px;
+  text-decoration: none;
+  padding: 1px 15px;
+  margin-top: 0;
+  margin-bottom: 0;
+  line-height: 60px;
+  font-size: 18px;
+  display: block;
+}
+.signin {
+  vertical-align: middle;
+}
+.fa-inbox { line-height: inherit;}
+.fa-cog { line-height: inherit;}
+.fa-sign-in { line-height: inherit;}
 
 /* Custom page footer */
 .footer {
@@ -120,6 +142,35 @@ a:visited{
 .footer p{
     margin-left: auto;
     margin-right: auto;
+}
+
+/* signup page */
+.loginControl{
+}
+.loginControl table{
+  margin-left: auto;
+  margin-right: auto;
+}
+.loginControl td{
+  padding:3px;
+}
+.loginControl input{
+  color: #333;
+  background-color: #FFF;
+  border: 1px solid #CCC;
+  border-radius: 3px;
+  outline: medium none;
+  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.075) inset;
+  min-height: 18px;
+  font-size: 12px;
+  margin-left: 10px;
+  margin-right:10px;
+}
+.loginControl{
+  text-align: center;
+}
+.loginControlRight{
+  border-right: 1px solid #F93;
 }
 
 /* Search page */

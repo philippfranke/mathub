@@ -1,7 +1,13 @@
 'use strict';
 angular.module('angularApp')
-  .controller('EditCtrl', function ($scope, api, sharedProperties, $location) {
+  .controller('EditCtrl', function ($scope, api, sharedProperties, $location, userManagement) {
 
+    //user
+    $scope.loggedIn = userManagement.getLoggedIn();
+    $scope.userName = userManagement.getUserName();
+    $scope.userId = userManagement.getUserId();
+
+    
   	$scope.editorOptions = {
   		lineNumbers: true,
   		matchBrackets: true,

@@ -1,6 +1,13 @@
 'use strict';
 angular.module('angularApp')
-  .controller('SearchCtrl', function ($scope, api, $location, sharedProperties) {
+  .controller('SearchCtrl', function ($scope, api, $location, sharedProperties, userManagement) {
+
+    //user:
+    $scope.loggedIn = userManagement.getLoggedIn();
+    $scope.userName = userManagement.getUserName();
+    $scope.userId = userManagement.getUserId();
+
+    //rest
   	$scope.showLecture = false;
   	$scope.showAssignment = false;
     $scope.addUniversity = false;

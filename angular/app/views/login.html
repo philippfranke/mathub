@@ -1,0 +1,44 @@
+<div class="loginControl">
+	<table>
+		<tr>
+			<td class="loginControlRight">
+				Login
+			</td>
+			<td>
+				Register
+			</td>
+		</tr>
+		<tr>
+			<td class="loginControlRight">
+				<input placeholder="E-Mail" ng-model="lemail" type="email"></input>
+			</td>
+			<td>
+				<input placeholder="E-Mail" ng-model="remail"type="email"></input>
+			</td>
+		</tr>
+		<tr>
+			<td class="loginControlRight">
+				<input placeholder="Password" ng-model="lpassword_hash" type="password"></input>
+			</td>
+			<td>
+				<input placeholder="Username" ng-model="rusername"></input>
+			</td>
+		</tr>
+		<tr>
+			<td class="loginControlRight">
+			</td>
+			<td>
+				<input placeholder="Password" ng-model="rpassword_hash" type="password"></input>
+			</td>
+		</tr>
+		<tr>
+			<td class="loginControlRight">
+				<a ng-click="loginAction()" href >GO <div class ="fa fa-paper-plane"></div></a>
+			</td>
+			<td>
+				<a ng-click="registerAction()" href>GO <div class ="fa fa-paper-plane"></div></a>
+			</td>
+		</tr>
+		<span class="error">{{error}}</span>
+	</table>
+</div>
