@@ -1,9 +1,10 @@
 package user
 
 type User struct {
-	Id    int64  `json:"id"`
-	Name  string `json:"name"`
-	Email string `json:"email" db:"email"`
+	Id           int64  `json:"id"`
+	Name         string `json:"name"`
+	Email        string `json:"email" db:"email"`
+	PasswordHash string `json:"password_hash,omitempty" db:"password_hash"`
 }
 
 type Users []User
@@ -33,8 +34,18 @@ func Get(id string) (User, error) {
 	return user, nil
 }
 
+func GetByEmail(email string) (User, error) {
+	var user User
+	err := DB.Get(&user, "SELECT id, name, email, password_hash FROM users WHERE email = ? ;", email)
+	if err != nil {
+		return User{}, err
+	}
+
+	return user, nil
+}
+
 func Create(user User) (User, error) {
-	res, err := DB.Exec("INSERT INTO users (id, name, email) VALUES(NULL, ?, ?);", user.Name, user.Email)
+	res, err := DB.Exec("INSERT INTO users (id, name, email, password_hash) VALUES(NULL, ?, ?, ?);", user.Name, user.Email, user.PasswordHash)
 	if err != nil {
 		return User{}, err
 	}
@@ -44,12 +55,13 @@ func Create(user User) (User, error) {
 		return User{}, err
 	}
 	user.Id = lastId
+	user.PasswordHash = ""
 
 	return user, nil
 }
 
 func Update(user User) error {
-	_, err := DB.Exec("UPDATE users SET name = ? AND email = ? WHERE id = ?;", user.Name, user.Email, user.Id)
+	_, err := DB.Exec("UPDATE users SET name = ? AND email = ? AND password_hash = ? WHERE id = ?;", user.Name, user.Email, user.PasswordHash, user.Id)
 	if err != nil {
 		return err
 	}
