@@ -33,7 +33,7 @@ func Entrypoints() Routes {
 		"university_url":    &Route{"/unis/{uni}", university.Router()},
 		"users_url":         &Route{"/users", user.Router()},
 		"user_url":          &Route{"/users/{user}", user.Router()},
-		"userLogin_url":     &Route{"/users/login", user.Router()},
+		"userLogin_url":     &Route{"login", user.Router()},
 		"lectures_url":      &Route{"/unis/{uni}/lectures", lecture.Router()},
 		"lecture_url":       &Route{"/unis/{uni}/lectures/{lecture}", lecture.Router()},
 		"versions_url":      &Route{"/unis/{uni}/lectures/{lecture}/{ref_type}/{ref_id}/versions", version.Router(*dataPath)},

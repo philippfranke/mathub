@@ -28,7 +28,7 @@ func Router() http.Handler {
 
 	r.Handle("/users", Handler(IndexHandler)).Methods("GET", "HEAD", "OPTIONS")
 	r.Handle("/users", Handler(CreateHandler)).Methods("POST")
-	r.Handle("/users/login", Handler(LoginHandler)).Methods("POST")
+	r.Handle("/login", Handler(LoginHandler)).Methods("POST")
 	r.Handle("/users/{user}", Handler(ShowHandler)).Methods("GET", "HEAD", "OPTIONS")
 	r.Handle("/users/{user}", Handler(UpdateHandler)).Methods("PATCH")
 	r.Handle("/users/{user}", Handler(DestroyHandler)).Methods("DELETE")
