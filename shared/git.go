@@ -1,4 +1,4 @@
-package assignment
+package shared
 
 import (
 	"fmt"
@@ -10,25 +10,21 @@ import (
 )
 
 type Repo struct {
-	uni     string
-	lecture string
-	dir     string
+	dir      string
+	DataPath string
 }
 
-func NewRepo(uni, lecture string) *Repo {
-	return &Repo{
-		uni:     uni,
-		lecture: lecture,
-	}
+func NewRepo(path string) *Repo {
+	return &Repo{}
 }
 
-func (r *Repo) Open() error {
-	r.dir = filepath.Join(DataPath, r.uni, r.lecture)
+func (r *Repo) Open(path string) error {
+	r.dir = filepath.Join(r.DataPath, path)
 	return nil
 }
 
-func (r *Repo) Create() error {
-	r.dir = filepath.Join(DataPath, r.uni, r.lecture)
+func (r *Repo) Create(path string) error {
+	r.dir = filepath.Join(r.DataPath, path)
 
 	if err := os.MkdirAll(r.dir, 0755); err != nil {
 		return err

@@ -6,6 +6,7 @@ import (
 	"github.com/philippfranke/mathub/services/assignment"
 	"github.com/philippfranke/mathub/services/comment"
 	"github.com/philippfranke/mathub/services/lecture"
+	"github.com/philippfranke/mathub/services/solution"
 	"github.com/philippfranke/mathub/services/university"
 	"github.com/philippfranke/mathub/services/user"
 	"github.com/philippfranke/mathub/services/version"
@@ -35,12 +36,16 @@ func Entrypoints() Routes {
 		"userLogin_url":     &Route{"/users/login", user.Router()},
 		"lectures_url":      &Route{"/unis/{uni}/lectures", lecture.Router()},
 		"lecture_url":       &Route{"/unis/{uni}/lectures/{lecture}", lecture.Router()},
+		"versions_url":      &Route{"/unis/{uni}/lectures/{lecture}/{ref_type}/{ref_id}/versions", version.Router(*dataPath)},
+		"version_url":       &Route{"/unis/{uni}/lectures/{lecture}/{ref_type}/{ref_id}/versions/{version}", version.Router(*dataPath)},
+		"versions_user_url": &Route{"/users/{user}/{ref_type}/{ref_id}/versions", version.Router(*dataPath)},
+		"version_user_url":  &Route{"/users/{user}/{ref_type}/{ref_id}/versions/{version}", version.Router(*dataPath)},
 		"assignments_url":   &Route{"/unis/{uni}/lectures/{lecture}/assignments", assignment.Router(*dataPath)},
 		"assignment_url":    &Route{"/unis/{uni}/lectures/{lecture}/assignments/{assignment}", assignment.Router(*dataPath)},
+		"solutions":         &Route{"/users/{uni}/solutions", solution.Router(*dataPath)},
+		"solution_url":      &Route{"/users/{uni}/solutions/{solution}", solution.Router(*dataPath)},
 		"commentTree_url":   &Route{"/comments/{refType}/{refId}", comment.Router()},
 		"commentCreate_url": &Route{"/comments", comment.Router()},
 		"comment_url":       &Route{"/comments/{comment}", comment.Router()},
-		"versions_url":      &Route{"/unis/{uni}/lectures/{lecture}/assignments/{assignment}/versions", version.Router(*dataPath)},
-		"version_url":       &Route{"/unis/{uni}/lectures/{lecture}/assignments/{assignment}/versions/{version}", version.Router(*dataPath)},
 	}
 }

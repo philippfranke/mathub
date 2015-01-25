@@ -3,18 +3,17 @@ package version
 import (
 	"database/sql"
 	"net/http"
+	"path/filepath"
 	"strconv"
 
 	"github.com/gorilla/mux"
-	"github.com/philippfranke/mathub/services/assignment"
-	"github.com/philippfranke/mathub/services/lecture"
-	"github.com/philippfranke/mathub/services/university"
 
+	"github.com/philippfranke/mathub/services/user"
 	. "github.com/philippfranke/mathub/shared"
 )
 
-func IndexHandler(w http.ResponseWriter, r *http.Request, u university.University, l lecture.Lecture, a assignment.Assignment) error {
-	assignment, err := All(strconv.FormatInt(a.Id, 10), "assignments")
+func IndexHandler(w http.ResponseWriter, r *http.Request, a Reference) error {
+	assignment, err := All(strconv.FormatInt(a.Id, 10), a.Type)
 	if err != nil {
 		return err
 	}
@@ -22,9 +21,9 @@ func IndexHandler(w http.ResponseWriter, r *http.Request, u university.Universit
 	return WriteJSON(w, assignment)
 }
 
-func ShowHandler(w http.ResponseWriter, r *http.Request, u university.University, l lecture.Lecture, a assignment.Assignment) error {
+func ShowHandler(w http.ResponseWriter, r *http.Request, a Reference) error {
 
-	version, err := Get(strconv.FormatInt(a.Id, 10), "assignments", mux.Vars(r)["version"])
+	version, err := Get(strconv.FormatInt(a.Id, 10), a.Type, mux.Vars(r)["version"])
 	if err == sql.ErrNoRows {
 		w.WriteHeader(http.StatusNotFound)
 		return nil
@@ -32,18 +31,25 @@ func ShowHandler(w http.ResponseWriter, r *http.Request, u university.University
 		return err
 	}
 
-	rp := assignment.NewRepo(u.Name, l.Name)
+	var folder string
+	if (a.User == user.User{}) {
+		folder = filepath.Join(a.University.Name, a.Lecture.Name)
+	} else {
+		folder = filepath.Join(a.User.Name)
+	}
 
-	rp.Open()
+	rp := &Repo{DataPath: DataPath}
+
+	rp.Open(folder)
 	tex := rp.ShowFile(strconv.FormatInt(a.Id, 10)+".tex", version.CommitHash)
 	version.Tex = tex
 	return WriteJSON(w, version)
 
 }
 
-func UpdateHandler(w http.ResponseWriter, r *http.Request, u university.University, l lecture.Lecture, a assignment.Assignment) error {
+func UpdateHandler(w http.ResponseWriter, r *http.Request, a Reference) error {
 
-	version, err := Get(strconv.FormatInt(a.Id, 10), "assignments", mux.Vars(r)["version"])
+	version, err := Get(strconv.FormatInt(a.Id, 10), a.Type, mux.Vars(r)["version"])
 	if err == sql.ErrNoRows {
 		w.WriteHeader(http.StatusNotFound)
 		return nil
@@ -51,9 +57,15 @@ func UpdateHandler(w http.ResponseWriter, r *http.Request, u university.Universi
 		return err
 	}
 
-	rp := assignment.NewRepo(u.Name, l.Name)
+	var folder string
+	if true {
+		folder = filepath.Join(a.University.Name, a.Lecture.Name)
+	} else {
+		folder = filepath.Join(a.User.Name)
+	}
+	rp := &Repo{DataPath: DataPath}
 
-	rp.Open()
+	rp.Open(folder)
 	tex := rp.ShowFile(strconv.FormatInt(a.Id, 10)+".tex", version.CommitHash)
 
 	err = rp.Update(strconv.FormatInt(a.Id, 10)+".tex", tex)
