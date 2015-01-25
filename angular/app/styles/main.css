@@ -97,6 +97,7 @@ a:visited{
   display: block;
   line-height: 60px;
   font-size: 18px;
+  width:80px;
 }
 .inbox{
   text-align:center;

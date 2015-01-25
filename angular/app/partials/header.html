@@ -22,23 +22,25 @@
     <li>
     	<a class="link" ng-href="#/">Contact</a>
     </li>
-    <li ng-if="isLoggedIn">
-    	<div class="avatar fa fa-user fa-2x"></div>
+    <li ng-if="loggedIn">
+    	<a class="avatar" ng-href="#/profile">
+        <div class="settings fa fa-user fa-2x"></div>
+      </a>
     </li>
-    <li ng-if="isLoggedIn">
-    	<a class="username" ng-href="#/profile">{{UserName}}</a>
+    <li ng-if="loggedIn">
+    	<a class="username" ng-href="#/profile">{{userName}}</a>
     </li>
-    <li ng-if="isLoggedIn">
+    <li ng-if="loggedIn">
     	<a ng-href="#/inbox">
         <div class="inbox fa fa-inbox fa-2x"></div>
     	</a>
     </li>
-    <li ng-if="isLoggedIn">
+    <li ng-if="loggedIn">
     	<a ng-href="#/settings">
     		<div class="settings fa fa-cog fa-2x"></div>
     	</a>
     </li>
-    <li ng-if="!isLoggedIn">
+    <li ng-if="!loggedIn">
       <a class="signup" ng-href="#/login"><div class="signin fa fa-sign-in fa-2x"></div></a>
     </li>
   </ul>

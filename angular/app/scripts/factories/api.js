@@ -6,7 +6,7 @@ angular.module('angularApp')
     var api = {};
 
     api.loginUser = function (credentials) {
-        return $http.post(urlBase + '/users/login',credentials);
+        return $http.post(urlBase + '/login',credentials);
     };
 
     api.createUser = function (credentials) {

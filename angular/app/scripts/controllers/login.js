@@ -2,7 +2,10 @@
 /*jshint camelcase: false */
 angular.module('angularApp')
   .controller('LoginCtrl', function ($scope, api, $location, userManagement) {
-        //user:
+    //user:
+    if(userManagement.getLoggedIn() === false){
+      userManagement.retrieve();
+    }
     $scope.loggedIn = userManagement.getLoggedIn();
     $scope.userName = userManagement.getUserName();
     $scope.userId = userManagement.getUserId();
@@ -27,10 +30,11 @@ angular.module('angularApp')
   			};
 	  		api.loginUser(sendData)
 				.success(function(data){
-					userManagement.setUsername(data.name);
+					userManagement.setUserName(data.name);
 					userManagement.setUserId(data.id);
 					userManagement.setUserMail(data.email);
 					userManagement.setLoggedIn(true);
+          userManagement.store();
 					$location.path('#/');
 				})
 				.error(function(){
@@ -52,10 +56,11 @@ angular.module('angularApp')
   			};
 	  		api.createUser(sendData)
 				.success(function(data){
-					userManagement.setUsername(data.name);
+					userManagement.setUserName(data.name);
 					userManagement.setUserId(data.id);
 					userManagement.setUserMail(data.email);
 					userManagement.setLoggedIn(true);
+          userManagement.store();
 					$location.path('#/');
 				})
 				.error(function(){

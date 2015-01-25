@@ -3,6 +3,9 @@ angular.module('angularApp')
   .controller('SearchCtrl', function ($scope, api, $location, sharedProperties, userManagement) {
 
     //user:
+    if(userManagement.getLoggedIn() === false){
+      userManagement.retrieve();
+    }
     $scope.loggedIn = userManagement.getLoggedIn();
     $scope.userName = userManagement.getUserName();
     $scope.userId = userManagement.getUserId();

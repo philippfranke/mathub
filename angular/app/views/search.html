@@ -1,3 +1,4 @@
+<matheader></matheader>
 <ul class="searchselector">
 	<li ng-click="Handler()">
 		University
@@ -9,7 +10,7 @@
 		Assignment
 	</li>
 	<li>
-		<a href class="searchAdd fa fa-plus" ng-click="addItem(false)" ng-show="!addUniversity && !addLecture && !addAssignment"></a>
+		<a href class="searchAdd fa fa-plus" ng-click="addItem(false)" ng-show="!addUniversity && !addLecture && !addAssignment && loggedIn"></a>
 	</li>
 	<li ng-show="addUniversity">
 		<form>
