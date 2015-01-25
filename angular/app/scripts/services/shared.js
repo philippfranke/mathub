@@ -4,6 +4,7 @@ angular.module('angularApp')
         var uniEdit = 0;
         var lectEdit = 0;
         var assiEdit = 0;
+        var solEdit = 0;
 
         return {
             getUniEdit: function () {
@@ -23,6 +24,12 @@ angular.module('angularApp')
             },
             setAssiEdit: function(value) {
                 assiEdit = value;
+            },
+            getSolEdit: function () {
+                return solEdit;
+            },
+            setSolEdit: function(value) {
+                solEdit = value;
             }
         };
     });
