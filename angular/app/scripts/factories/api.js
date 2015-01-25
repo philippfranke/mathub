@@ -5,6 +5,14 @@ angular.module('angularApp')
     var urlBase = 'http://192.168.59.103';
     var api = {};
 
+    api.loginUser = function (credentials) {
+        return $http.post(urlBase + '/users/login',credentials);
+    };
+
+    api.createUser = function (credentials) {
+        return $http.post(urlBase + '/users',credentials);
+    };
+
     api.getAllUnis = function () {
         return $http.get(urlBase + '/unis');
     };
