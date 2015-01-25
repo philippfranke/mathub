@@ -6,11 +6,14 @@
 	<li ng-show="showLecture" ng-click="Handler(uni)">
 		Lecture
 	</li>
-	<li ng-show="showAssignment">
+	<li ng-show="showAssignment" ng-click="Handler(lect,uni)">
 		Assignment
 	</li>
+	<li ng-show="showSolution">
+		Solution
+	</li>
 	<li>
-		<a href class="searchAdd fa fa-plus" ng-click="addItem(false)" ng-show="!addUniversity && !addLecture && !addAssignment && loggedIn"></a>
+		<a href class="searchAdd fa fa-plus" ng-click="addItem(false)" ng-show="!addUniversity && !addLecture && !addAssignment && !addSolution && loggedIn"></a>
 	</li>
 	<li ng-show="addUniversity">
 		<form>
@@ -27,18 +30,42 @@
   			<input placeholder="Assignmentname" ng-model="assignmentData"></input>
   		</form>
 	</li>
+	<li ng-show="addSolution">
+		<form>
+  			<input placeholder="Solutionname" ng-model="solutiondataData"></input>
+  		</form>
+	</li>
 	<li>
-		<a href class="searchAdd fa fa-check" ng-click="addItem(true)" ng-show="addUniversity || addLecture || addAssignment"></a>
+		<a href class="searchAdd fa fa-check" ng-click="addItem(true)" ng-show="addUniversity || addLecture || addAssignment || addSolution"></a>
 	</li>
 </ul>
 
-<ul class="searchResult">
-	<li ng-repeat="thing in data" ng-class-odd="'searchodd'" ng-click="Handler(thing.id,thing.university_id,thing.lecture_id)">
+<ul class="searchResult" ng-if="!showAssignment && !showSolution">
+	<li ng-repeat="thing in data" ng-class-odd="'searchodd'" ng-click="Handler(thing.id,thing.university_id)" class="clickable">
 		<span ng-if="thing.name !== ''">
 			{{thing.name}}
 		</span>
 		<span ng-if="thing.name === ''">
 			{{thing.id}}
+		</span>
+	</li>
+</ul>
+<ul class="searchResult" ng-if="showAssignment || showSolution">
+	<li ng-repeat="thing in data" ng-class-odd="'searchodd'" >
+		<span ng-if="thing.name !== ''">
+			{{thing.name}}
+		</span>
+		<span ng-if="thing.name === '' || showSolution">
+			{{thing.id}}
+		</span>
+		<span title="show solutions" ng-if="!showSolution" class="searchInteractions clickable" ng-click="fillSolutions(thing.id)">
+			<i class="fa fa-file"></i>
+		</span>
+		<span title="view" ng-click="view(thing.id)" class="searchInteractions clickable">
+			<i class="fa fa-eye"></i>
+		</span>
+		<span title="edit" ng-click="edit(thing.id)"class="searchInteractions clickable">
+			<i class="fa fa-pencil"></i>
 		</span>
 	</li>
 </ul>

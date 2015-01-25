@@ -33,6 +33,10 @@ a:visited{
   padding-right: 15px;
 }
 
+.clickable{
+  cursor:pointer;
+}
+
 .error {
   color:#F33;
 }
@@ -208,13 +212,18 @@ a:visited{
 }
 
 .searchResult li{
-  cursor:pointer;
   margin-left: 50px;
   text-align: left;
   margin-top: 6px;
 }
 .searchodd {
   background-color: #FFD27E;
+}
+
+.searchInteractions{
+  float:right;
+  margin-right: 10px;
+  color: #F33;
 }
 
 /* Editor Css*/

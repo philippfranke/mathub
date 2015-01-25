@@ -19,6 +19,8 @@ angular.module('angularApp')
 
     $scope.assignment = '';
 
+    $scope.mode = '';
+
   	$scope.tex = 'Loading ...';
 
     $scope.saveTex = function(){
@@ -26,21 +28,46 @@ angular.module('angularApp')
         'tex': $scope.tex
       };
       resultTex.tex = resultTex.tex.replace('\\','\\\\');
-      api.updateAssignment(sharedProperties.getUniEdit(),sharedProperties.getLectEdit(),sharedProperties.getAssiEdit(),resultTex).success(function(){
-        $scope.saved =true;
-      });
+      if($scope.mode === 'ass'){
+        api.updateAssignment(sharedProperties.getUniEdit(),sharedProperties.getLectEdit(),sharedProperties.getAssiEdit(),resultTex).success(function(){
+          $scope.saved =true;
+        });
+      }else{
+        api.updateSolution($scope.userId,sharedProperties.getSolEdit(),resultTex).success(function(){
+          $scope.saved =true;
+        });
+      }
 
     };
 
 
 
-  	function getAssignment(uniID, lectureID, AssiID){
+  	function showAssignment(uniID, lectureID, AssiID){
   		api.getAssignment(uniID, lectureID, AssiID)
 			.success(function(data){
 				$scope.data = data;
 				$scope.tex = data.tex.replace('\\\\','\\');
 			});
   	}
+
+    function showSolution(solID){
+      api.getSolution($scope.userId,solID)
+      .success(function(data){
+        $scope.data = data;
+        $scope.tex = data.tex.replace('\\\\','\\');
+      });
+    }
+
+    function getAssignment(uniID, lectureID, AssiID){
+      api.getAssignment(uniID, lectureID, AssiID)
+      .success(function(data){
+        if(data.name !== ''){
+          $scope.assignment = data.name;
+        }else{
+          $scope.assignment = data.id;
+        }
+      });
+    }
 
   	function getUniversity(uniID){
   		api.getUnis(uniID)
@@ -59,17 +86,31 @@ angular.module('angularApp')
   	function displayAssignment (uniID, lectureID, AssiID){
   		getUniversity(uniID);
   		getLectures(uniID,lectureID);
-  		getAssignment(uniID, lectureID, AssiID);
+  		showAssignment(uniID, lectureID, AssiID);
   	}
+
+    function displaySolution(uniID, lectID, AssiID, SolID){
+      getUniversity(uniID);
+      getLectures(uniID,lectID);
+      getAssignment(uniID, lectID, AssiID);
+      showSolution(SolID);
+    }
 
   	function getShared(){
   		var uni = sharedProperties.getUniEdit();
   		var lect = sharedProperties.getLectEdit();
   		var assi = sharedProperties.getAssiEdit();
-  		if(assi === 0||lect ===0|| uni ===0 ){
+      var sol = sharedProperties.getSolEdit();
+  		if(assi === 0||lect ===0|| uni ===0 || sol ===0){
   			$location.path('/search');
   		}else{
-  			displayAssignment(uni,lect,assi);
+        if(sol === -1){
+          displayAssignment(uni,lect,assi);
+          $scope.mode = 'ass';
+        }else{
+          displaySolution(uni,lect,assi,sol);
+          $scope.mode = 'sol';
+        }
   		}
   	}
   	getShared();

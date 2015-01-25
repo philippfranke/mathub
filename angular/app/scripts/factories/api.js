@@ -5,6 +5,7 @@ angular.module('angularApp')
     var urlBase = 'http://192.168.59.103';
     var api = {};
 
+    //user stuff
     api.loginUser = function (credentials) {
         return $http.post(urlBase + '/login',credentials);
     };
@@ -13,6 +14,8 @@ angular.module('angularApp')
         return $http.post(urlBase + '/users',credentials);
     };
 
+
+    //university stuff
     api.getAllUnis = function () {
         return $http.get(urlBase + '/unis');
     };
@@ -32,6 +35,8 @@ angular.module('angularApp')
     api.deleteUni = function (id) {
         return $http.delete(urlBase + '/unis/' + id);
     };
+
+    //lecture stuff
 
     api.getAllLectures = function (uniID) {
         return $http.get(urlBase + '/unis/'+uniID+'/lectures');
@@ -53,6 +58,7 @@ angular.module('angularApp')
         return $http.delete(urlBase + '/unis/' + uniID + '/lectures/' + lectureID);
     };
 
+    //assignment stuff
     api.getAssignments = function (uniID,lectureID) {
         return $http.get(urlBase + '/unis/' + uniID + '/lectures/' + lectureID + '/assignments');
     };
@@ -70,6 +76,22 @@ angular.module('angularApp')
         return $http.patch(url,tex);
     };
 
+    //solution stuff
+    api.getSolutions = function (userID){
+        return $http.get(urlBase + '/users/' + userID + '/solutions');
+    };
+
+    api.getSolution =  function (userID,solID){
+        return $http.get(urlBase + '/users/' + userID + '/solutions/'+solID);
+    };
+
+    api.createSolution = function (userID,data){
+        return $http.post(urlBase + '/users/' + userID + '/solutions',data);
+    };
+
+    api.updateSolution =  function (userID,solID,tex){
+        return $http.patch(urlBase + '/users/' + userID + '/solutions/'+solID,tex);
+    };
 
     return api;
 }]).config(['$httpProvider', function($httpProvider) {
