@@ -1,4 +1,4 @@
-package assignment
+package solution
 
 import (
 	"database/sql"
@@ -9,8 +9,7 @@ import (
 	"strconv"
 
 	"github.com/gorilla/mux"
-	"github.com/philippfranke/mathub/services/lecture"
-	"github.com/philippfranke/mathub/services/university"
+	"github.com/philippfranke/mathub/services/user"
 	. "github.com/philippfranke/mathub/shared"
 )
 
@@ -33,17 +32,17 @@ func CreateVersion(v Version) error {
 	return nil
 }
 
-func IndexHandler(w http.ResponseWriter, r *http.Request, u university.University, l lecture.Lecture) error {
-	assignment, err := All(strconv.FormatInt(l.Id, 10))
+func IndexHandler(w http.ResponseWriter, r *http.Request, u user.User) error {
+	solution, err := All(strconv.FormatInt(u.Id, 10))
 	if err != nil {
 		return err
 	}
 
-	return WriteJSON(w, assignment)
+	return WriteJSON(w, solution)
 }
 
-func ShowHandler(w http.ResponseWriter, r *http.Request, u university.University, l lecture.Lecture) error {
-	assignment, err := Get(mux.Vars(r)["assignment"])
+func ShowHandler(w http.ResponseWriter, r *http.Request, u user.User) error {
+	solution, err := Get(mux.Vars(r)["solution"])
 	if err == sql.ErrNoRows {
 		w.WriteHeader(http.StatusNotFound)
 		return nil
@@ -51,38 +50,38 @@ func ShowHandler(w http.ResponseWriter, r *http.Request, u university.University
 		return err
 	}
 
-	return WriteJSON(w, assignment)
+	return WriteJSON(w, solution)
 }
 
-func CreateHandler(w http.ResponseWriter, r *http.Request, u university.University, l lecture.Lecture) error {
+func CreateHandler(w http.ResponseWriter, r *http.Request, u user.User) error {
 	var err error
-	var assignment Assignment
+	var solution Solution
 
 	d := json.NewDecoder(r.Body)
 	defer r.Body.Close()
 
-	if err := d.Decode(&assignment); err != nil {
+	if err := d.Decode(&solution); err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		return nil
 	}
 
-	assignment.LectureId = l.Id
+	solution.UserId = u.Id
 
 	// Create
 
 	rp := &Repo{DataPath: DataPath}
-	folder := filepath.Join(u.Name, l.Name)
+	folder := filepath.Join(u.Name)
 	if err := rp.Create(folder); err != nil {
 		return err
 	}
 
-	assignment, err = Create(assignment)
+	solution, err = Create(solution)
 	if err != nil {
 		return err
 	}
 
-	filename := fmt.Sprintf("%d.tex", assignment.Id)
-	if err := rp.Add(filename, assignment.Tex); err != nil {
+	filename := fmt.Sprintf("%d.tex", solution.Id)
+	if err := rp.Add(filename, solution.Tex); err != nil {
 		return err
 	}
 
@@ -90,31 +89,31 @@ func CreateHandler(w http.ResponseWriter, r *http.Request, u university.Universi
 		return err
 	}
 
-	assignment.CommitHash = rp.LastHash()
-	UpdateId(assignment)
+	solution.CommitHash = rp.LastHash()
+	UpdateId(solution)
 	v := Version{
-		CommitHash:    assignment.CommitHash,
-		ReferenceType: "assignments",
-		ReferenceId:   assignment.Id,
+		CommitHash:    solution.CommitHash,
+		ReferenceType: "solutions",
+		ReferenceId:   solution.Id,
 		UserId:        1,
 	}
 	err = CreateVersion(v)
-	return WriteJSON(w, assignment)
+	return WriteJSON(w, solution)
 }
 
-func UpdateHandler(w http.ResponseWriter, r *http.Request, u university.University, l lecture.Lecture) error {
+func UpdateHandler(w http.ResponseWriter, r *http.Request, u user.User) error {
 
-	var assignment Assignment
+	var solution Solution
 
 	d := json.NewDecoder(r.Body)
 	defer r.Body.Close()
 
-	if err := d.Decode(&assignment); err != nil {
+	if err := d.Decode(&solution); err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		return nil
 	}
 
-	assignmentId := mux.Vars(r)["assignment"]
+	assignmentId := mux.Vars(r)["solution"]
 
 	original, err := Get(assignmentId)
 	if err == sql.ErrNoRows {
@@ -124,43 +123,43 @@ func UpdateHandler(w http.ResponseWriter, r *http.Request, u university.Universi
 		return err
 	}
 
-	if assignment.LectureId == 0 {
-		assignment.LectureId = l.Id
+	if solution.UserId == 0 {
+		solution.UserId = u.Id
 	}
 
 	// Open
-	folder := filepath.Join(u.Name, l.Name)
+	folder := filepath.Join(u.Name)
 	rp := &Repo{DataPath: DataPath}
 	rp.Open(folder)
 	filename := fmt.Sprintf("%s.tex", assignmentId)
-	if err := rp.Update(filename, assignment.Tex); err != nil {
+	if err := rp.Update(filename, solution.Tex); err != nil {
 		return err
 	}
 
-	assignment.Id = original.Id
+	solution.Id = original.Id
 
 	out, err := rp.Status()
 	if err != nil {
 		return err
 	}
 	if out == "" {
-		return WriteJSON(w, assignment)
+		return WriteJSON(w, solution)
 	}
 
 	if err := rp.Commit("bla", "Tim Trompete <mail@mail.com>"); err != nil {
 		return err
 	}
-	assignment.CommitHash = rp.LastHash()
+	solution.CommitHash = rp.LastHash()
 
-	err = Update(assignment)
+	err = Update(solution)
 	if err != nil {
 		return err
 	}
 
 	v := Version{
-		CommitHash:    assignment.CommitHash,
-		ReferenceType: "assignments",
-		ReferenceId:   assignment.Id,
+		CommitHash:    solution.CommitHash,
+		ReferenceType: "solutions",
+		ReferenceId:   solution.Id,
 		UserId:        1,
 	}
 	err = CreateVersion(v)
@@ -168,21 +167,21 @@ func UpdateHandler(w http.ResponseWriter, r *http.Request, u university.Universi
 		return err
 	}
 
-	return WriteJSON(w, assignment)
+	return WriteJSON(w, solution)
 }
 
-func DestroyHandler(w http.ResponseWriter, r *http.Request, u university.University, l lecture.Lecture) error {
+func DestroyHandler(w http.ResponseWriter, r *http.Request, u user.User) error {
 
-	assignmentId := mux.Vars(r)["assignment"]
+	solutionId := mux.Vars(r)["solution"]
 
-	folder := filepath.Join(u.Name, l.Name)
+	folder := filepath.Join(u.Name)
 	rp := &Repo{DataPath: DataPath}
 	rp.Open(folder)
 
-	filename := fmt.Sprintf("%s.tex", assignmentId)
+	filename := fmt.Sprintf("%s.tex", solutionId)
 	rp.Destroy(filename)
 
-	err := Destroy(mux.Vars(r)["assignment"])
+	err := Destroy(mux.Vars(r)["solution"])
 	if err != nil {
 		return err
 	}
