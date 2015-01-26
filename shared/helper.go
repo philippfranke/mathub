@@ -17,7 +17,7 @@ func (h Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Methods", "POST, GET, PATCH, DELETE, OPTIONS")
-	w.Header().Set("Access-Control-Allow-Headers", "origin, content-type, accept")
+	w.Header().Set("Access-Control-Allow-Headers", "origin, content-type, accept, user")
 
 	err := h(w, r)
 
