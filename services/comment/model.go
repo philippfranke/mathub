@@ -13,6 +13,7 @@ type Comment struct {
 	UserID     int64     `json:"user_id" db:"user_id"`
 	Timestamp  time.Time `json:"timestamp" db:"timestamp"`
 	Text       string    `json:"text" db:"text"`
+	Name       string    `json:"username" db:"name"`
 }
 type CommentNode struct {
 	Node     Comment       `json:"comment"`
@@ -24,7 +25,7 @@ type CommentTree []CommentNode
 func All(refType, refId string) (CommentTree, error) {
 	var comments Comments
 
-	err := DB.Select(&comments, "SELECT id, ref_type, ref_id, ref_version, ref_line, parent_id, user_id, timestamp, text FROM comments WHERE ref_type = ? AND ref_id =? ORDER BY timestamp;", refType, refId)
+	err := DB.Select(&comments, "SELECT comments.id, ref_type, ref_id, ref_version, ref_line, parent_id, user_id, timestamp, text, users.name FROM comments, users WHERE ref_type = ? AND ref_id =? AND user_id=users.id ORDER BY timestamp;", refType, refId)
 	if err != nil {
 		return nil, err
 	}
@@ -53,7 +54,7 @@ func BuildCommentTree(parentId int64, comments Comments) CommentTree {
 
 func Get(id string) (Comment, error) {
 	var comment Comment
-	err := DB.Get(&comment, "SELECT id, ref_type, ref_id, ref_version, ref_line, parent_id, user_id, timestamp, text  FROM comments WHERE id = ?;", id)
+	err := DB.Get(&comment, "SELECT comments.id, ref_type, ref_id, ref_version, ref_line, parent_id, user_id, timestamp, text, users.name  FROM comments, users WHERE id = ? AND user_id=users.id;", id)
 	if err != nil {
 		return Comment{}, err
 	}
