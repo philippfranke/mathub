@@ -160,6 +160,19 @@ angular.module('angularApp')
       $location.path('/edit');
     };
 
+    $scope.comments = function(contextID){
+      sharedProperties.setUni($scope.uni);
+      sharedProperties.setLect($scope.lect);
+      if($scope.showAssignment && !$scope.showSolution){
+        sharedProperties.setAssi(contextID);
+        sharedProperties.setSol(-1);
+      }else{
+        sharedProperties.setAssi($scope.ass);
+        sharedProperties.setSol(contextID);
+      }
+      $location.path('/comment');
+    };
+
     $scope.view = function(contextID){
       console.log(contextID);
     };
@@ -213,7 +226,7 @@ angular.module('angularApp')
           $scope.addAssignment = true;
         }
       }
-
+      //solution add
       if($scope.showAssignment && $scope.showLecture && $scope.showSolution){
         if(complete){
           var tex = '';

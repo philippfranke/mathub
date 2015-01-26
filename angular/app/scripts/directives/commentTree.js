@@ -5,6 +5,8 @@ angular.module('angularApp')
         restrict: 'E',
         scope: {
             family: '=',
+            userid:'=',
+            prevtext: '=',
             submitreply: '='
         },
         templateUrl:'partials/commentPartial.html',

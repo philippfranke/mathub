@@ -8,6 +8,7 @@ angular.module('angularApp')
   	$scope.loggedIn = userManagement.getLoggedIn();
   	$scope.userName = userManagement.getUserName();
   	$scope.userId = userManagement.getUserId();
+    $scope.userid = $scope.userId;
 
   	//control vars
   	$scope.type = '';
@@ -40,22 +41,45 @@ angular.module('angularApp')
 	      });
     }
 
-    $scope.submitreply = function(line,parent,content){
+    $scope.submitreply = function(line,parent,content,edit){
+      if(!edit){
+        var e = {
+          'ref_type' : $scope.type,
+          'ref_id' : $scope.id,
+          'ref_version' : 1, //change when versions are implemented
+          'ref_line' : line,
+          'parent_id' : parent,
+          'user_id' : $scope.userId,
+          'timestamp' : new Date().toJSON(),
+          'text' : content
+        };
+        if(content !== ''){
+          api.createComment(e)
+            .success(function(){
+              draw();
+            });
+        }
+      }else{
+        if(line !== -1){
 
-      var e = {
-        'ref_type' : $scope.type,
-        'ref_id' : $scope.id,
-        'ref_version' : 1, //change when versions are implemented
-        'ref_line' : line,
-        'parent_id' : parent,
-        'user_id' : $scope.userId,
-        'timestamp' : $filter('date')((new Date()),'yyyy-MM-ddTHH:mm:ssZ'),
-        'text' : content
-      };
-      api.createComment(e)
-        .success(function(){
-          draw();
-        });
+          var i = {
+            'ref_type' : $scope.type,
+            'ref_id' : $scope.id,
+            'text' : content
+          };
+          if(content !== ''){
+            api.updateComment(i,parent)
+              .success(function(){
+                draw();
+              });
+          }
+        }else{
+          api.deleteComment(parent)
+            .success(function(){
+              draw();
+            });
+        }
+      }
     };
 
     function getComments(type,id){

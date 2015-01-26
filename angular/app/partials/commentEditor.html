@@ -1,6 +1,12 @@
-<div class="commentReply">
+<div class="commentReply" ng-if="!prevtext">
 	<textarea placeholder="Enter your comment" cols="40" rows="2" ng-model="replyData" ></textarea>
-	<span class="finishReply" ng-click="submitreply(line,parent,replyData)">
+	<span class="finishReply" ng-click="submitreply(line,parent,replyData,false); $parent.reply = false;">
+		<i class="fa fa-check fa-2x"></i>
+	<span>
+</div>
+<div class="commentReply" ng-if="prevtext">
+	<textarea  cols="40" rows="2" ng-model="prevtext" ></textarea>
+	<span class="finishReply" ng-click="submitreply(line,parent,prevtext,true); $parent.edit = false;">
 		<i class="fa fa-check fa-2x"></i>
 	<span>
 </div>

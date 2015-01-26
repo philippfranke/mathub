@@ -2,13 +2,19 @@
 	{{ family.comment.text}}
 	<div class="commentSignatur">
 		<span class="commentUser">by {{family.comment.username}}</span>
-		<span class="commentOption" title="edit"><i class="fa fa-pencil"></i></span>
+		<span ng-if="userid == family.comment.user_id" >
+			<span class="commentOption" title="delete" ng-click="submitreply(-1,family.comment.id,true,true)"><i class="fa fa-trash"></i></span>
+			<span class="commentOption" title="edit"  ng-click="$parent.edit = true"><i class="fa fa-pencil"></i></span>
+		</span>
 		<span class="commentOption" title="reply" ng-click="reply = true"><i class="fa fa-reply"></i></span>
 	</div>
-	<comeditor line="family.comment.ref_line" parent="family.comment.id" submitreply="submitreply" ng-show="reply"></comeditor>
+	<span ng-if="userid == family.comment.user_id" >
+		<comeditor line="family.comment.ref_line" parent="family.comment.id" submitreply="submitreply" userid="userid" prevtext="family.comment.text" edit="$parent.edit" ng-show="$parent.edit"></comeditor>
+	</span>
+	<comeditor line="family.comment.ref_line" parent="family.comment.id" submitreply="submitreply" userid="userid" ng-show="reply"></comeditor>
 </div>
 <div class="commentContainer" ng-if="family.children.length > 0">
     <div ng-repeat="child in family.children">
-        <tree family="child"></tree>
+        <tree family="child" submitreply="submitreply" userid="userid"></tree>
     </div>
 <div>

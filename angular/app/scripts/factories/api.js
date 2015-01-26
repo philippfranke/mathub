@@ -107,6 +107,14 @@ angular.module('angularApp')
         return $http.post(urlBase + '/comments',data);
     };
 
+    api.updateComment = function (data,commentId){
+        return $http.patch(urlBase + '/comments/' + commentId ,data);
+    };
+
+    api.deleteComment = function (commentId){
+        return $http.delete(urlBase + '/comments/'+commentId);
+    };
+
     return api;
 }]).config(['$httpProvider', function($httpProvider) {
         $httpProvider.defaults.useXDomain = true;

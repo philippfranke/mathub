@@ -41,7 +41,6 @@ angular.module('angularApp')
     };
 
     $scope.showComments = function(){
-      console.log('comments');
       $location.path('/comment');
     };
 

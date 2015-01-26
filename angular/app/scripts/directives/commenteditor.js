@@ -6,6 +6,10 @@ angular.module('angularApp')
         scope: {
             line: '=',
             submitreply: '=',
+            userId:'=',
+            edit: '=',
+            reply:'=',
+            prevtext: '=',
             parent: '='
         },
         templateUrl:'partials/commentEditor.html'
