@@ -8,7 +8,11 @@
 				<span class="commentCode">{{thing}}</span>
 			</td>
 			<td class="commentsection">
-				<comTree></comTree>
+				<div class="commentContainer" ng-repeat="commentTree in comments">
+					<tree ng-if="commentTree.comment.ref_line === $parent.$index" family="commentTree"></tree>
+				</div>
+				<span class="commentOptionTop" title="reply" ng-show="!reply" ng-click="reply = true">Comment <i class="fa fa-reply"></i></span>
+				<comeditor line="$index" parent="0" ng-show="reply"></comeditor>
 			</td>
 		</tr>
 </table>
