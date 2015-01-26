@@ -257,6 +257,43 @@ a:visited{
   border-bottom: 2px solid #e5e5e5;
 
 }
+
+.commentContainer {
+  margin-left: 20px;
+  border-left: 2px solid #F93;
+}
+.commentContent {
+  margin-bottom: 10px;
+  margin-left: 10px;
+}
+.commentSignatur {
+  color:#F33;
+  margin-top: 5px;
+}
+.commentOption{
+  cursor:pointer;
+  margin-left:10px;
+}
+
+.commentOptionTop{
+  cursor:pointer;
+  margin-left:20px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  color:#F33;
+}
+
+.commentReply {
+  color:#F33;
+  margin-left:20px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+.finishReply {
+  cursor:pointer;
+  margin-left:5px;
+}
+
 .linesection {
   width:30px;
   text-align: center;

@@ -1,5 +1,6 @@
 'use strict';
-module.factory('RecursionHelper', ['$compile', function($compile){
+angular.module('angularApp')
+    .factory('RecursionHelper', ['$compile', function($compile){
     return {
         /**
          * Manually compiles the element, fixing the recursion loop.
