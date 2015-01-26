@@ -115,6 +115,11 @@ angular.module('angularApp')
         return $http.delete(urlBase + '/comments/'+commentId);
     };
 
+    //search stuff
+    api.search = function (query){
+        return $http.get(urlBase + '/search?query='+query);
+    };
+
     return api;
 }]).config(['$httpProvider', function($httpProvider) {
         $httpProvider.defaults.useXDomain = true;

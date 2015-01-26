@@ -1,0 +1,33 @@
+<matheader></matheader>
+Results for : {{query}}
+<ul class="searchResult">
+	<li ng-repeat="thing in data" ng-class-odd="'searchodd'" >
+		<span>
+			{{thing.university_name}} \
+		</span>
+		<span>
+			{{thing.lecture_name}} \
+		</span>
+		<span>
+			{{thing.type}} \
+		</span>
+		<span ng-if="thing.type === 'solutions'">
+			{{thing.solution_id}}
+		</span>
+		<span ng-if="thing.type === 'solutions'">
+			 by {{thing.user_name}}
+		</span>
+		<span ng-if="thing.type === 'assignments'">
+			- {{thing.lecture_name}}
+		</span>
+		<span title="view" ng-click="view(thing)" class="searchInteractions clickable">
+			<i class="fa fa-eye"></i>
+		</span>
+		<span title="comments" ng-click="comments(thing)" class="searchInteractions clickable">
+			<i class="fa fa-comments"></i>
+		</span>
+		<span title="edit" ng-click="edit(thing)"class="searchInteractions clickable">
+			<i class="fa fa-pencil"></i>
+		</span>
+	</li>
+</ul>

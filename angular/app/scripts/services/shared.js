@@ -6,6 +6,8 @@ angular.module('angularApp')
         var assiEdit = 0;
         var solEdit = 0;
 
+        var query = '';
+
 
         return {
             getUni: function () {
@@ -31,6 +33,12 @@ angular.module('angularApp')
             },
             setSol: function(value) {
                 solEdit = value;
+            },
+            getQuery: function () {
+                return query;
+            },
+            setQuery: function(value) {
+                query = value;
             }
         };
     });

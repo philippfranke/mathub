@@ -48,6 +48,10 @@ angular
         templateUrl: 'views/comment.html',
         controller: 'CommentCtrl'
       })
+      .when('/query', {
+        templateUrl: 'views/query.html',
+        controller: 'QueryCtrl'
+      })
       .otherwise({
         redirectTo: '/'
       });
