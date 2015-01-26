@@ -3,7 +3,10 @@ angular.module('angularApp')
 .directive('tree', function(RecursionHelper) {
     return {
         restrict: 'E',
-        scope: {family: '='},
+        scope: {
+            family: '=',
+            submitreply: '='
+        },
         templateUrl:'partials/commentPartial.html',
         compile: function(element) {
             // Use the compile function from the RecursionHelper,

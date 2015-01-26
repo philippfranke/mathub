@@ -5,6 +5,7 @@ angular.module('angularApp')
         restrict: 'E',
         scope: {
             line: '=',
+            submitreply: '=',
             parent: '='
         },
         templateUrl:'partials/commentEditor.html'

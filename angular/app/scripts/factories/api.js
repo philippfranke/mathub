@@ -103,6 +103,10 @@ angular.module('angularApp')
         return $http.get(urlBase + '/comments/' + reftype+'/'+refId);
     };
 
+    api.createComment = function (data){
+        return $http.post(urlBase + '/comments',data);
+    };
+
     return api;
 }]).config(['$httpProvider', function($httpProvider) {
         $httpProvider.defaults.useXDomain = true;

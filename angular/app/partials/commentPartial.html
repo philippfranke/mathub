@@ -5,7 +5,7 @@
 		<span class="commentOption" title="edit"><i class="fa fa-pencil"></i></span>
 		<span class="commentOption" title="reply" ng-click="reply = true"><i class="fa fa-reply"></i></span>
 	</div>
-	<comeditor line="family.comment.ref_line" parent="family.comment.id" ng-show="reply"></comeditor>
+	<comeditor line="family.comment.ref_line" parent="family.comment.id" submitreply="submitreply" ng-show="reply"></comeditor>
 </div>
 <div class="commentContainer" ng-if="family.children.length > 0">
     <div ng-repeat="child in family.children">

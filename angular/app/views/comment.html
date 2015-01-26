@@ -9,10 +9,10 @@
 			</td>
 			<td class="commentsection">
 				<div class="commentContainer" ng-repeat="commentTree in comments">
-					<tree ng-if="commentTree.comment.ref_line === $parent.$index" family="commentTree"></tree>
+					<tree ng-if="commentTree.comment.ref_line === $parent.$index" family="commentTree" submitreply="submitreply"></tree>
 				</div>
 				<span class="commentOptionTop" title="reply" ng-show="!reply" ng-click="reply = true">Comment <i class="fa fa-reply"></i></span>
-				<comeditor line="$index" parent="0" ng-show="reply"></comeditor>
+				<comeditor line="$index" parent="0" submitreply="submitreply" ng-show="reply"></comeditor>
 			</td>
 		</tr>
 </table>
