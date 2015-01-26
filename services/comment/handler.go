@@ -31,6 +31,10 @@ func ShowHandler(w http.ResponseWriter, r *http.Request) error {
 }
 
 func CreateHandler(w http.ResponseWriter, r *http.Request) error {
+	if r.Method == "OPTIONS" {
+		w.WriteHeader(http.StatusOK)
+		return nil
+	}
 	var comment Comment
 	d := json.NewDecoder(r.Body)
 	defer r.Body.Close()

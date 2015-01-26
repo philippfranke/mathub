@@ -56,6 +56,10 @@ func CreateHandler(w http.ResponseWriter, r *http.Request) error {
 }
 
 func LoginHandler(w http.ResponseWriter, r *http.Request) error {
+	if r.Method == "OPTIONS" {
+		w.WriteHeader(http.StatusOK)
+		return nil
+	}
 	var userJson User
 	d := json.NewDecoder(r.Body)
 	defer r.Body.Close()

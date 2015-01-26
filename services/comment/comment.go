@@ -28,7 +28,7 @@ func Router() http.Handler {
 	r := mux.NewRouter()
 
 	r.Handle("/comments/{refType}/{refId}", Handler(FilterHandler(IndexHandler))).Methods("GET", "HEAD", "OPTIONS")
-	r.Handle("/comments", Handler(CreateHandler)).Methods("POST")
+	r.Handle("/comments", Handler(CreateHandler)).Methods("POST", "OPTIONS")
 	r.Handle("/comments/{comment}", Handler(ShowHandler)).Methods("GET", "HEAD", "OPTIONS")
 	r.Handle("/comments/{comment}", Handler(UpdateHandler)).Methods("PATCH")
 	r.Handle("/comments/{comment}", Handler(DestroyHandler)).Methods("DELETE")
