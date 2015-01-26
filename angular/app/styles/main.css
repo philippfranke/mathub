@@ -249,16 +249,19 @@ a:visited{
 /*comment css*/
 .codesection {
   width:420px;
-  background-color: #3F3;
+  border-bottom: 2px solid #e5e5e5;
 }
 .commentsection {
+  font-size: 12px;
   width:650px;
-  background-color: #F33;
+  border-bottom: 2px solid #e5e5e5;
+
 }
 .linesection {
   width:30px;
   text-align: center;
   background-color: #FFD27E;
+  border-bottom: 2px solid #e5e5e5;
 }
 
 /* latex output*/

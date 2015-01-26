@@ -17,6 +17,7 @@ angular.module('angularApp')
 				$scope.data = data;
 				var blobtex = data.tex.replace('\\\\','\\');
 				$scope.tex = blobtex.split('\n');
+
 				for(var i = 0; i<$scope.tex.length;i++){
 					if($scope.tex[i] === ''){
 						$scope.tex.splice(i,1);
@@ -32,7 +33,7 @@ angular.module('angularApp')
 	        var blobtex = data.tex.replace('\\\\','\\');
 	        $scope.tex = blobtex.split('\n');
 	        for(var i = 0; i<$scope.tex.length;i++){
-	        	if($scope.tex[i] === '\\n'){
+	        	if($scope.tex[i] === ''){
 	        		$scope.tex.splice(i,1);
 	        	}
 	        }
@@ -57,7 +58,7 @@ angular.module('angularApp')
   		}
   		$scope.type = 'solution';
   		getComments($scope.type,sharedProperties.getSol());
-  		showSolution(sharedProperties.getSol);
+  		showSolution(sharedProperties.getSol());
   	}
 
 
