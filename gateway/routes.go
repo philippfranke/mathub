@@ -6,6 +6,7 @@ import (
 	"github.com/philippfranke/mathub/services/assignment"
 	"github.com/philippfranke/mathub/services/comment"
 	"github.com/philippfranke/mathub/services/lecture"
+	"github.com/philippfranke/mathub/services/search"
 	"github.com/philippfranke/mathub/services/solution"
 	"github.com/philippfranke/mathub/services/university"
 	"github.com/philippfranke/mathub/services/user"
@@ -47,5 +48,6 @@ func Entrypoints() Routes {
 		"commentTree_url":   &Route{"/comments/{refType}/{refId}", comment.Router()},
 		"commentCreate_url": &Route{"/comments", comment.Router()},
 		"comment_url":       &Route{"/comments/{comment}", comment.Router()},
+		"search_url":        &Route{"/search", search.Router()},
 	}
 }
