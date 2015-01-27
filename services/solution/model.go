@@ -26,6 +26,21 @@ func All(user_id string) (Solutions, error) {
 	return solutions, nil
 }
 
+func AllByAssignment(assignment string) (Solutions, error) {
+	var solutions Solutions
+
+	err := DB.Select(&solutions, "SELECT id, assignment_id, user_id, commit_hash, tex FROM solutions WHERE assignment_id = ?;", assignment)
+	if err != nil {
+		return nil, err
+	}
+
+	if len(solutions) == 0 {
+		return []Solution{}, nil
+	}
+
+	return solutions, nil
+}
+
 func Get(id string) (Solution, error) {
 	var solution Solution
 	err := DB.Get(&solution, "SELECT id, assignment_id, user_id, commit_hash, tex FROM solutions WHERE id = ?;", id)

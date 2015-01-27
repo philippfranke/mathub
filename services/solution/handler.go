@@ -42,6 +42,15 @@ func IndexHandler(w http.ResponseWriter, r *http.Request, u user.User) error {
 	return WriteJSON(w, solution)
 }
 
+func IndexAssignmentHandler(w http.ResponseWriter, r *http.Request) error {
+	solution, err := AllByAssignment(mux.Vars(r)["assignment"])
+	if err != nil {
+		return err
+	}
+
+	return WriteJSON(w, solution)
+}
+
 func ShowHandler(w http.ResponseWriter, r *http.Request, u user.User) error {
 	solution, err := Get(mux.Vars(r)["solution"])
 	if err == sql.ErrNoRows {

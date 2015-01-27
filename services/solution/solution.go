@@ -31,6 +31,9 @@ func Router(path string) http.Handler {
 	r := mux.NewRouter()
 
 	r.Handle("/users/{user}/solutions", Handler(filterHandler(IndexHandler))).Methods("GET", "HEAD", "OPTIONS")
+
+	r.Handle("/assignments/{assignment}/solutions", Handler(IndexAssignmentHandler)).Methods("GET", "HEAD", "OPTIONS")
+
 	r.Handle("/users/{user}/solutions/{solution}", Handler(filterHandler(ShowHandler))).Methods("GET", "HEAD", "OPTIONS")
 	r.Handle("/users/{user}/solutions/{solution}", Handler(filterHandler(UpdateHandler))).Methods("PATCH")
 	r.Handle("/users/{user}/solutions/{solution}", Handler(filterHandler(DestroyHandler))).Methods("DELETE")
