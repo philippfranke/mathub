@@ -3,6 +3,9 @@ mathub
 
 ![Logo](https://raw.githubusercontent.com/philippfranke/mathub/master/mathubLogo2.jpg?token=AA6Ygt4qooQd1y9V6U9niM8dVfloibyEks5U0D9IwA%3D%3D)
 
+Mathub is a revision control system based on git for academic assignments. The online tex-editor allows users to easily solve their assignments by sharing solutions and commenting on others. 
+
+
 Please use docker for demo or testing!
 
 ## Code Status
@@ -33,8 +36,7 @@ docker build -t mathub:latest .
 
 Run a docker container with a linked mysql container
 ```
-docker run --name mathub -p 80:8080 -v ~/repos:/tmp/repos \ 
-           --link mathub-mysql:mysql -d mathub:latest
+docker run --name mathub -p 80:8080 -v ~/repos:/tmp/repos --link mathub-mysql:mysql -d mathub:latest
 ```
 *or*
 
@@ -55,7 +57,12 @@ Open `/angular/app/scripts/factories/api.js` and change urlBase to "http://local
 
 **5)** Run grunt 
 
-Go to `/angular` and run `grunt serve`. Finally start your browser and open `http://localhost:9000`
+Install first 
+```
+npm install -g grunt-cli bower
+```
+
+Go to `/angular` and run `npm install && bower install && grunt serve`. Finally start your browser and open `http://localhost:9000`
 
 ## Development
 For development
