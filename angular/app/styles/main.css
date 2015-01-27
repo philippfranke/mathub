@@ -6,6 +6,12 @@ body {
 
 /*general link color*/
 
+.banner{
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
 a:link{
   color:#F93;
   text-decoration: none;

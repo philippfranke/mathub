@@ -47,11 +47,6 @@ angular.module('angularApp')
   	};
 
 
-  	$scope.view = function(contextID){
-  	  console.log(contextID);
-  	};
-
-
   	$scope.$watch('query', function() {
   			getQueryResult($scope.query);
   	     });

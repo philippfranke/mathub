@@ -56,6 +56,22 @@ angular
         templateUrl: 'views/version.html',
         controller: 'VersionCtrl'
       })
+      .when('/blog', {
+        templateUrl: 'views/blog.html',
+        controller: 'BlogCtrl'
+      })
+      .when('/contact', {
+        templateUrl: 'views/contact.html',
+        controller: 'ContactCtrl'
+      })
+      .when('/settings', {
+        templateUrl: 'views/settings.html',
+        controller: 'SettingsCtrl'
+      })
+      .when('/inbox', {
+        templateUrl: 'views/inbox.html',
+        controller: 'InboxCtrl'
+      })
       .otherwise({
         redirectTo: '/'
       });

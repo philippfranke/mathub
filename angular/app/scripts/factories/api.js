@@ -100,7 +100,7 @@ angular.module('angularApp')
     //comment stuff
 
     api.getComments = function (reftype, refId){
-        return $http.get(urlBase + '/comments/' + reftype+'/'+refId);
+        return $http.get(urlBase + '/comments/' + reftype+'/'+refId,{headers:  {'User': userManagement.getUserId()}});
     };
 
     api.createComment = function (data){
@@ -126,16 +126,24 @@ angular.module('angularApp')
         return $http.get(urlBase + '/unis/'+uni+'/lectures/'+lect+'/assignments/'+assi+'/versions');
     };
 
-    api.getSolutionVersions = function(uni,lect,assi,sol){
-        return $http.get(urlBase + '/xxx/' +uni+lect+assi+sol);
+    api.getSolutionVersions = function(sol,user){
+        return $http.get(urlBase + '/users/'+user+'/solutions/'+sol+'/versions');
     };
 
     api.getAssignmentVersion = function(uni,lect,assi,version){
         return $http.get(urlBase + '/unis/'+uni+'/lectures/'+lect+'/assignments/'+assi+'/versions/'+version);
     };
 
+    api.getSolutionVersion = function(sol,user,version){
+        return $http.get(urlBase + '/users/'+user+'/solutions/'+sol+'/versions/'+version);
+    };
+
     api.revertAssignmentVersion = function (uni,lect,assi,version){
         return $http.patch(urlBase +'/unis/'+uni+'/lectures/'+lect+'/assignments/'+assi+'/versions/'+version);
+    };
+
+    api.revertSolutionVersion = function(sol,user,version){
+        return $http.patch(urlBase + '/users/'+user+'/solutions/'+sol+'/versions/'+version);
     };
 
     return api;

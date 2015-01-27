@@ -1,6 +1,6 @@
 'use strict';
 angular.module('angularApp')
-  .controller('AboutCtrl', function ($scope,userManagement) {
+  .controller('InboxCtrl', function ($scope,userManagement) {
   	//user
     if(userManagement.getLoggedIn() === false){
       userManagement.retrieve();

@@ -26,7 +26,15 @@ angular.module('angularApp')
   			});
   			$scope.mark = number;
   		}else{
-
+        api.getSolutionVersion($scope.sol,$scope.userId,number)
+        .success(function(data){
+          if(number === 1){
+            $scope.tex = '';
+          }else{
+            $scope.tex = data.tex.replace('\\\\','\\');
+          }
+        });
+        $scope.mark = number;
   		}
   	};
 
@@ -37,7 +45,10 @@ angular.module('angularApp')
           displayAssignment();
         });
       }else{
-
+        api.revertSolutionVersion($scope.sol,$scope.userId,number)
+        .success(function(){
+          displaySolution();
+        });
       }
     };
 
@@ -51,7 +62,11 @@ angular.module('angularApp')
   	}
 
   	function displaySolution(){
-
+      api.getSolutionVersions($scope.sol,$scope.userId)
+      .success(function(data){
+        $scope.data = data;
+        $scope.displayVersion(1);
+      });
   	}
 
 

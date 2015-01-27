@@ -48,9 +48,6 @@ angular.module('angularApp')
       $location.path('/version');
     };
 
-    $scope.view = function(){
-      console.log('view');
-    };
 
 
   	function showAssignment(uniID, lectureID, AssiID){

@@ -173,9 +173,6 @@ angular.module('angularApp')
       $location.path('/comment');
     };
 
-    $scope.view = function(contextID){
-      console.log(contextID);
-    };
 
 
     $scope.addItem = function(complete){
