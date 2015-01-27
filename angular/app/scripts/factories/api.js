@@ -134,6 +134,10 @@ angular.module('angularApp')
         return $http.get(urlBase + '/unis/'+uni+'/lectures/'+lect+'/assignments/'+assi+'/versions/'+version);
     };
 
+    api.revertAssignmentVersion = function (uni,lect,assi,version){
+        return $http.patch(urlBase +'/unis/'+uni+'/lectures/'+lect+'/assignments/'+assi+'/versions/'+version);
+    };
+
     return api;
 }]).config(['$httpProvider', function($httpProvider) {
         $httpProvider.defaults.useXDomain = true;

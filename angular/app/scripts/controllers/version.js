@@ -30,6 +30,17 @@ angular.module('angularApp')
   		}
   	};
 
+    $scope.revertVersion = function (number){
+      if($scope.mode === 'ass'){
+        api.revertAssignmentVersion($scope.uni,$scope.lect,$scope.assi,number)
+        .success(function(){
+          displayAssignment();
+        });
+      }else{
+
+      }
+    };
+
 
   	function displayAssignment(){
   		api.getAssignmentVersions($scope.uni,$scope.lect,$scope.assi)
