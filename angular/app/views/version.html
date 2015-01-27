@@ -6,7 +6,7 @@ All versions
 			<span ng-class="{versSel: item.Number==mark}">
 				Version {{item.Number}} 
 				<span class="versionOptions">
-					<span class="versionOpt" ng-click="">
+					<span class="versionOpt" ng-click="revertVersion(item.Number)">
 						<i class="fa fa-history" title="revert to commit"></i>
 					</span>
 					<span class="versionOpt" ng-click="displayVersion(item.Number)">
