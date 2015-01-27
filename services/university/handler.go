@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
+	"github.com/philippfranke/mathub/services/user"
 	. "github.com/philippfranke/mathub/shared"
 )
 
@@ -31,11 +32,16 @@ func ShowHandler(w http.ResponseWriter, r *http.Request) error {
 }
 
 func CreateHandler(w http.ResponseWriter, r *http.Request) error {
+	_, err := user.Get(r.Header["User"][0])
+	if err != nil {
+		w.WriteHeader(http.StatusForbidden)
+		return nil
+	}
 	var uni University
 	d := json.NewDecoder(r.Body)
 	defer r.Body.Close()
 
-	err := d.Decode(&uni)
+	err = d.Decode(&uni)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		return nil
@@ -51,11 +57,16 @@ func CreateHandler(w http.ResponseWriter, r *http.Request) error {
 }
 
 func UpdateHandler(w http.ResponseWriter, r *http.Request) error {
+	_, err := user.Get(r.Header["User"][0])
+	if err != nil {
+		w.WriteHeader(http.StatusForbidden)
+		return nil
+	}
 	var uni University
 	d := json.NewDecoder(r.Body)
 	defer r.Body.Close()
 
-	err := d.Decode(&uni)
+	err = d.Decode(&uni)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		return nil
@@ -76,7 +87,12 @@ func UpdateHandler(w http.ResponseWriter, r *http.Request) error {
 }
 
 func DestroyHandler(w http.ResponseWriter, r *http.Request) error {
-	err := Destroy(mux.Vars(r)["uni"])
+	_, err := user.Get(r.Header["User"][0])
+	if err != nil {
+		w.WriteHeader(http.StatusForbidden)
+		return nil
+	}
+	err = Destroy(mux.Vars(r)["uni"])
 	if err != nil {
 		return err
 	}

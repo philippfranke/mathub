@@ -12,6 +12,7 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/philippfranke/mathub/services/lecture"
 	"github.com/philippfranke/mathub/services/university"
+	"github.com/philippfranke/mathub/services/user"
 	. "github.com/philippfranke/mathub/shared"
 )
 
@@ -57,6 +58,15 @@ func ShowHandler(w http.ResponseWriter, r *http.Request, u university.University
 
 func CreateHandler(w http.ResponseWriter, r *http.Request, u university.University, l lecture.Lecture) error {
 	var err error
+
+	fmt.Println(r.Header["User"][0])
+	user, err := user.Get(r.Header["User"][0])
+	if err != nil {
+		fmt.Println(err)
+		w.WriteHeader(http.StatusForbidden)
+		return nil
+	}
+
 	var assignment Assignment
 
 	d := json.NewDecoder(r.Body)
@@ -67,6 +77,7 @@ func CreateHandler(w http.ResponseWriter, r *http.Request, u university.Universi
 		return nil
 	}
 
+	assignment.UserId = user.Id
 	assignment.LectureId = l.Id
 
 	// Create
@@ -87,7 +98,7 @@ func CreateHandler(w http.ResponseWriter, r *http.Request, u university.Universi
 		return err
 	}
 
-	if err := rp.Commit("Initial commit", "Tim Trompete <mail@mail.com>"); err != nil {
+	if err := rp.Commit("Initial commit", user.Name+"<"+user.Email+">"); err != nil {
 		return err
 	}
 
@@ -97,13 +108,19 @@ func CreateHandler(w http.ResponseWriter, r *http.Request, u university.Universi
 		CommitHash:    assignment.CommitHash,
 		ReferenceType: "assignments",
 		ReferenceId:   assignment.Id,
-		UserId:        1,
+		UserId:        user.Id,
 	}
 	err = CreateVersion(v)
 	return WriteJSON(w, assignment)
 }
 
 func UpdateHandler(w http.ResponseWriter, r *http.Request, u university.University, l lecture.Lecture) error {
+
+	user, err := user.Get(r.Header["User"][0])
+	if err != nil {
+		w.WriteHeader(http.StatusForbidden)
+		return nil
+	}
 
 	var assignment Assignment
 
@@ -124,6 +141,7 @@ func UpdateHandler(w http.ResponseWriter, r *http.Request, u university.Universi
 	} else if err != nil {
 		return err
 	}
+	assignment.UserId = user.Id
 
 	assignmentTypes := reflect.TypeOf(Assignment{})
 	updateValues := reflect.ValueOf(&assignment)
@@ -152,6 +170,7 @@ func UpdateHandler(w http.ResponseWriter, r *http.Request, u university.Universi
 	}
 
 	assignment.Id = original.Id
+	assignment.UserId = user.Id
 
 	out, err := rp.Status()
 	if err != nil {
@@ -161,7 +180,7 @@ func UpdateHandler(w http.ResponseWriter, r *http.Request, u university.Universi
 		return WriteJSON(w, assignment)
 	}
 
-	if err := rp.Commit("bla", "Tim Trompete <mail@mail.com>"); err != nil {
+	if err := rp.Commit("Default message", user.Name+"<"+user.Email+">"); err != nil {
 		return err
 	}
 	assignment.CommitHash = rp.LastHash()
@@ -175,7 +194,7 @@ func UpdateHandler(w http.ResponseWriter, r *http.Request, u university.Universi
 		CommitHash:    assignment.CommitHash,
 		ReferenceType: "assignments",
 		ReferenceId:   assignment.Id,
-		UserId:        1,
+		UserId:        user.Id,
 	}
 	err = CreateVersion(v)
 	if err != nil {
@@ -186,6 +205,11 @@ func UpdateHandler(w http.ResponseWriter, r *http.Request, u university.Universi
 }
 
 func DestroyHandler(w http.ResponseWriter, r *http.Request, u university.University, l lecture.Lecture) error {
+	user, err := user.Get(r.Header["User"][0])
+	if err != nil {
+		w.WriteHeader(http.StatusForbidden)
+		return nil
+	}
 
 	assignmentId := mux.Vars(r)["assignment"]
 
@@ -196,7 +220,7 @@ func DestroyHandler(w http.ResponseWriter, r *http.Request, u university.Univers
 	filename := fmt.Sprintf("%s.tex", assignmentId)
 	rp.Destroy(filename)
 
-	err := Destroy(mux.Vars(r)["assignment"])
+	err = Destroy(mux.Vars(r)["assignment"])
 	if err != nil {
 		return err
 	}
@@ -210,7 +234,7 @@ func DestroyHandler(w http.ResponseWriter, r *http.Request, u university.Univers
 		return nil
 	}
 
-	if err := rp.Commit("bla", "Tim Trompete <mail@mail.com>"); err != nil {
+	if err := rp.Commit("Default", user.Name+"<"+user.Email+">"); err != nil {
 		return err
 	}
 

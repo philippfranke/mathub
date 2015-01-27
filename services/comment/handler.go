@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
+	"github.com/philippfranke/mathub/services/user"
 	. "github.com/philippfranke/mathub/shared"
 )
 
@@ -31,6 +32,11 @@ func ShowHandler(w http.ResponseWriter, r *http.Request) error {
 }
 
 func CreateHandler(w http.ResponseWriter, r *http.Request) error {
+	user, err := user.Get(r.Header["User"][0])
+	if err != nil {
+		w.WriteHeader(http.StatusForbidden)
+		return nil
+	}
 	if r.Method == "OPTIONS" {
 		w.WriteHeader(http.StatusOK)
 		return nil
@@ -39,11 +45,12 @@ func CreateHandler(w http.ResponseWriter, r *http.Request) error {
 	d := json.NewDecoder(r.Body)
 	defer r.Body.Close()
 
-	err := d.Decode(&comment)
+	err = d.Decode(&comment)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		return nil
 	}
+	comment.UserID = user.Id
 
 	comment, err = Create(comment)
 	if err != nil {
@@ -55,15 +62,21 @@ func CreateHandler(w http.ResponseWriter, r *http.Request) error {
 }
 
 func UpdateHandler(w http.ResponseWriter, r *http.Request) error {
+	user, err := user.Get(r.Header["User"][0])
+	if err != nil {
+		w.WriteHeader(http.StatusForbidden)
+		return nil
+	}
 	var comment Comment
 	d := json.NewDecoder(r.Body)
 	defer r.Body.Close()
 
-	err := d.Decode(&comment)
+	err = d.Decode(&comment)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		return nil
 	}
+	comment.UserID = user.Id
 
 	original, err := Get(mux.Vars(r)["comment"])
 	if err == sql.ErrNoRows {
@@ -83,7 +96,12 @@ func UpdateHandler(w http.ResponseWriter, r *http.Request) error {
 }
 
 func DestroyHandler(w http.ResponseWriter, r *http.Request) error {
-	err := Destroy(mux.Vars(r)["comment"])
+	_, err := user.Get(r.Header["User"][0])
+	if err != nil {
+		w.WriteHeader(http.StatusForbidden)
+		return nil
+	}
+	err = Destroy(mux.Vars(r)["comment"])
 	if err != nil {
 		return err
 	}

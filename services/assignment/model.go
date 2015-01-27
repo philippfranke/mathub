@@ -5,7 +5,7 @@ import "time"
 type Assignment struct {
 	Id        int64     `json:"id"`
 	LectureId int64     `json:"lecture_id" db:"lecture_id"`
-	UserID    int64     `json:"user_id" db:"user_id"`
+	UserId    int64     `json:"user_id" db:"user_id"`
 	Name      string    `json:"name" db:"name"`
 	DueDate   time.Time `json:"due_date" db:"due_date"`
 	Tex       string    `json:"tex"`

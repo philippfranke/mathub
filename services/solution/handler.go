@@ -66,6 +66,11 @@ func ShowHandler(w http.ResponseWriter, r *http.Request, u user.User) error {
 func CreateHandler(w http.ResponseWriter, r *http.Request, u user.User) error {
 	var err error
 	var solution Solution
+	user, err := user.Get(r.Header["User"][0])
+	if err != nil {
+		w.WriteHeader(http.StatusForbidden)
+		return nil
+	}
 
 	d := json.NewDecoder(r.Body)
 	defer r.Body.Close()
@@ -95,7 +100,7 @@ func CreateHandler(w http.ResponseWriter, r *http.Request, u user.User) error {
 		return err
 	}
 
-	if err := rp.Commit("Initial commit", "Tim Trompete <mail@mail.com>"); err != nil {
+	if err := rp.Commit("Initial commit", user.Name+"<"+user.Email+">"); err != nil {
 		return err
 	}
 
@@ -112,7 +117,11 @@ func CreateHandler(w http.ResponseWriter, r *http.Request, u user.User) error {
 }
 
 func UpdateHandler(w http.ResponseWriter, r *http.Request, u user.User) error {
-
+	user, err := user.Get(r.Header["User"][0])
+	if err != nil {
+		w.WriteHeader(http.StatusForbidden)
+		return nil
+	}
 	var solution Solution
 
 	d := json.NewDecoder(r.Body)
@@ -169,7 +178,7 @@ func UpdateHandler(w http.ResponseWriter, r *http.Request, u user.User) error {
 		return WriteJSON(w, solution)
 	}
 
-	if err := rp.Commit("bla", "Tim Trompete <mail@mail.com>"); err != nil {
+	if err := rp.Commit("Default", user.Name+"<"+user.Email+">"); err != nil {
 		return err
 	}
 	solution.CommitHash = rp.LastHash()
@@ -194,7 +203,11 @@ func UpdateHandler(w http.ResponseWriter, r *http.Request, u user.User) error {
 }
 
 func DestroyHandler(w http.ResponseWriter, r *http.Request, u user.User) error {
-
+	user, err := user.Get(r.Header["User"][0])
+	if err != nil {
+		w.WriteHeader(http.StatusForbidden)
+		return nil
+	}
 	solutionId := mux.Vars(r)["solution"]
 
 	folder := filepath.Join(u.Name)
@@ -204,7 +217,7 @@ func DestroyHandler(w http.ResponseWriter, r *http.Request, u user.User) error {
 	filename := fmt.Sprintf("%s.tex", solutionId)
 	rp.Destroy(filename)
 
-	err := Destroy(mux.Vars(r)["solution"])
+	err = Destroy(mux.Vars(r)["solution"])
 	if err != nil {
 		return err
 	}
@@ -218,7 +231,7 @@ func DestroyHandler(w http.ResponseWriter, r *http.Request, u user.User) error {
 		return nil
 	}
 
-	if err := rp.Commit("bla", "Tim Trompete <mail@mail.com>"); err != nil {
+	if err := rp.Commit("Default", user.Name+"<"+user.Email+">"); err != nil {
 		return err
 	}
 
