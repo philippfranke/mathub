@@ -15,9 +15,4 @@ angular.module('angularApp')
   	$scope.loggedIn = userManagement.getLoggedIn();
   	$scope.userName = userManagement.getUserName();
   	$scope.userId = userManagement.getUserId();
-    $scope.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ];
   });
