@@ -54,7 +54,7 @@ func BuildCommentTree(parentId int64, comments Comments) CommentTree {
 
 func Get(id string) (Comment, error) {
 	var comment Comment
-	err := DB.Get(&comment, "SELECT comments.id, ref_type, ref_id, ref_version, ref_line, parent_id, user_id, timestamp, text, users.name  FROM comments, users WHERE id = ? AND user_id=users.id;", id)
+	err := DB.Get(&comment, "SELECT comments.id, ref_type, ref_id, ref_version, ref_line, parent_id, user_id, timestamp, text, users.name  FROM comments, users WHERE comments.id = ? AND user_id=users.id;", id)
 	if err != nil {
 		return Comment{}, err
 	}
