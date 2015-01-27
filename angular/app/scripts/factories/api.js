@@ -1,6 +1,6 @@
 'use strict';
 angular.module('angularApp')
-    .factory('api', ['$http', function($http) {
+    .factory('api', ['$http','userManagement', function($http,userManagement) {
 
     var urlBase = 'http://192.168.59.103';
     var api = {};
@@ -29,15 +29,15 @@ angular.module('angularApp')
     };
 
     api.createUni = function (uni) {
-        return $http.post(urlBase + '/unis', uni);
+        return $http.post(urlBase + '/unis', uni, {headers:  {'User': userManagement.getUserId()}});
     };
 
     api.updateUni = function (id, updatedUni) {
-        return $http.patch(urlBase + '/unis/' + id, updatedUni);
+        return $http.patch(urlBase + '/unis/' + id, updatedUni , {headers:  {'User': userManagement.getUserId()}});
     };
 
     api.deleteUni = function (id) {
-        return $http.delete(urlBase + '/unis/' + id);
+        return $http.delete(urlBase + '/unis/' + id,{headers:  {'User': userManagement.getUserId()}});
     };
 
     //lecture stuff
@@ -51,15 +51,15 @@ angular.module('angularApp')
     };
 
     api.createLecture = function (uniID, lecture) {
-        return $http.post(urlBase + '/unis/'+ uniID + '/lectures', lecture);
+        return $http.post(urlBase + '/unis/'+ uniID + '/lectures', lecture,{headers:  {'User': userManagement.getUserId()}});
     };
 
     api.updateLecture = function (uniID,lectureID, updatedLecture) {
-        return $http.patch(urlBase + '/unis/' + uniID + '/lectures/' + lectureID, updatedLecture);
+        return $http.patch(urlBase + '/unis/' + uniID + '/lectures/' + lectureID, updatedLecture,{headers:  {'User': userManagement.getUserId()}});
     };
 
     api.deleteLecture = function (uniID,lectureID) {
-        return $http.delete(urlBase + '/unis/' + uniID + '/lectures/' + lectureID);
+        return $http.delete(urlBase + '/unis/' + uniID + '/lectures/' + lectureID,{headers:  {'User': userManagement.getUserId()}});
     };
 
     //assignment stuff
@@ -72,17 +72,17 @@ angular.module('angularApp')
     };
 
     api.createAssignment = function(uniID,lectureID,data){
-        return $http.post(urlBase + '/unis/' + uniID + '/lectures/' + lectureID + '/assignments',data);
+        return $http.post(urlBase + '/unis/' + uniID + '/lectures/' + lectureID + '/assignments',data,{headers:  {'User': userManagement.getUserId()}});
     };
 
     api.updateAssignment = function (uniID,lectureID,assignmentID,tex){
         var url = urlBase + '/unis/' + uniID + '/lectures/' + lectureID + '/assignments/' + assignmentID;
-        return $http.patch(url,tex);
+        return $http.patch(url,tex,{headers:  {'User': userManagement.getUserId()}});
     };
 
     //solution stuff
-    api.getSolutions = function (userID){
-        return $http.get(urlBase + '/users/' + userID + '/solutions');
+    api.getSolutions = function (assi){
+        return $http.get(urlBase + '/assignments/' + assi + '/solutions');
     };
 
     api.getSolution =  function (userID,solID){
@@ -90,11 +90,11 @@ angular.module('angularApp')
     };
 
     api.createSolution = function (userID,data){
-        return $http.post(urlBase + '/users/' + userID + '/solutions',data);
+        return $http.post(urlBase + '/users/' + userID + '/solutions',data,{headers:  {'User': userManagement.getUserId()}});
     };
 
     api.updateSolution =  function (userID,solID,tex){
-        return $http.patch(urlBase + '/users/' + userID + '/solutions/'+solID,tex);
+        return $http.patch(urlBase + '/users/' + userID + '/solutions/'+solID,tex,{headers:  {'User': userManagement.getUserId()}});
     };
 
     //comment stuff
@@ -104,15 +104,15 @@ angular.module('angularApp')
     };
 
     api.createComment = function (data){
-        return $http.post(urlBase + '/comments',data);
+        return $http.post(urlBase + '/comments',data,{headers:  {'User': userManagement.getUserId()}});
     };
 
     api.updateComment = function (data,commentId){
-        return $http.patch(urlBase + '/comments/' + commentId ,data);
+        return $http.patch(urlBase + '/comments/' + commentId ,data,{headers:  {'User': userManagement.getUserId()}});
     };
 
     api.deleteComment = function (commentId){
-        return $http.delete(urlBase + '/comments/'+commentId);
+        return $http.delete(urlBase + '/comments/'+commentId,{headers:  {'User': userManagement.getUserId()}});
     };
 
     //search stuff

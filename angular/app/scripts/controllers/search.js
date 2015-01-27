@@ -47,7 +47,7 @@ angular.module('angularApp')
 			});
   	}
     function getSolutions(assignmentID){
-      api.getSolutions($scope.userId)
+      api.getSolutions($scope.ass)
       .success(function(data){
         $scope.correctData=[];
         for(var i = 0; i < data.length; i++){
