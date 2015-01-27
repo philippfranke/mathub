@@ -1,5 +1,8 @@
 mathub
 ======
+
+![Logo](https://raw.githubusercontent.com/philippfranke/mathub/master/mathubLogo2.jpg?token=AA6Ygt4qooQd1y9V6U9niM8dVfloibyEks5U0D9IwA%3D%3D)
+
 Please use docker for demo or testing!
 
 ## Code Status
