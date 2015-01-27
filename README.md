@@ -11,6 +11,7 @@ Please use docker in order to review our project. Our docker image only includes
 The following steps will guide you to run our application:
 
 **1)** mySQL Container 
+
 If you have not installed a mysql server on your machine, please use this docker images. Further information: [here](https://registry.hub.docker.com/_/mysql/)
 ```
 docker pull mysql
@@ -19,18 +20,21 @@ docker run --name mathub-mysql -e MYSQL_ROOT_PASSWORD=mathub \
 ```
 
 **2)** Build our docker image
+
 Go to the project's root and build a docker image
 ```
 docker build -t mathub:latest .
 ```
 
 **3)** Run docker image
+
 Run a docker container with a linked mysql container
 ```
 docker run --name mathub -p 80:8080 -v ~/repos:/tmp/repos \ 
            --link mathub-mysql:mysql -d mathub:latest
 ```
 *or*
+
 Run a docker container with your database credentials (replace $your\_mysql\_* with your credentials) 
 ```
 docker run --name mathub -p 80:8080 -v ~/repos:/tmp/repos --link mathub-mysql:mysql \
@@ -43,9 +47,11 @@ docker run --name mathub -p 80:8080 -v ~/repos:/tmp/repos --link mathub-mysql:my
 
 
 **4)** Change API host in angular app
+
 Open `/angular/app/scripts/factories/api.js` and change urlBase to "http://localhost" on linux or "http://$(boot2docker_ip)" on windows or mac.
 
 **5)** Run grunt 
+
 Go to `/angular` and run `grunt serve`. Finally start your browser and open `http://localhost:9000`
 
 ## Development
