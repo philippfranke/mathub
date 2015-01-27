@@ -39,7 +39,7 @@ func Router(path string) http.Handler {
 	r.Handle("/unis/{uni}/lectures/{lecture}/{ref_type}/{ref_id}/versions/{version}", Handler(filterHandler(ShowHandler))).Methods("GET")
 	r.Handle("/unis/{uni}/lectures/{lecture}/{ref_type}/{ref_id}/versions/{version}", Handler(filterHandler(UpdateHandler))).Methods("PATCH")
 	r.Handle("/users/{user}/{ref_type}/{ref_id}/versions", Handler(filterHandler(IndexHandler))).Methods("GET", "HEAD", "OPTIONS")
-	r.Handle("/users/{user}/{ref_type}/{ref_id}/versions/{version}", Handler(filterHandler(ShowHandler))).Methods("GET")
+	r.Handle("/users/{user}/{ref_type}/{ref_id}/versions/{version}", Handler(filterHandler(ShowHandler))).Methods("GET", "OPTIONS")
 	r.Handle("/users/{user}/{ref_type}/{ref_id}/versions/{version}", Handler(filterHandler(UpdateHandler))).Methods("PATCH")
 
 	return r
