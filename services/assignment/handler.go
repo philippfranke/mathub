@@ -98,7 +98,7 @@ func CreateHandler(w http.ResponseWriter, r *http.Request, u university.Universi
 		return err
 	}
 
-	if err := rp.Commit("Initial commit", user.Name+"<"+user.Email+">"); err != nil {
+	if err := rp.Commit("Initial commit", user.Name+" <"+user.Email+">"); err != nil {
 		return err
 	}
 
@@ -150,7 +150,6 @@ func UpdateHandler(w http.ResponseWriter, r *http.Request, u university.Universi
 		var comp = reflect.New(assignmentTypes.Field(i).Type).Elem().Interface()
 
 		if updateValues.Elem().Field(i).Interface() == comp {
-			fmt.Printf("%s: %v %v \n", assignmentTypes.Field(i).Name, reflect.ValueOf(&original).Elem().Field(i).Interface(), comp)
 			val := reflect.ValueOf(&original).Elem().Field(i)
 			updateValues.Elem().Field(i).Set(val)
 		}
@@ -180,7 +179,7 @@ func UpdateHandler(w http.ResponseWriter, r *http.Request, u university.Universi
 		return WriteJSON(w, assignment)
 	}
 
-	if err := rp.Commit("Default message", user.Name+"<"+user.Email+">"); err != nil {
+	if err := rp.Commit("Default message", user.Name+" <"+user.Email+">"); err != nil {
 		return err
 	}
 	assignment.CommitHash = rp.LastHash()
@@ -234,7 +233,7 @@ func DestroyHandler(w http.ResponseWriter, r *http.Request, u university.Univers
 		return nil
 	}
 
-	if err := rp.Commit("Default", user.Name+"<"+user.Email+">"); err != nil {
+	if err := rp.Commit("Default", user.Name+" <"+user.Email+">"); err != nil {
 		return err
 	}
 

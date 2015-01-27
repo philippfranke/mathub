@@ -100,7 +100,7 @@ func CreateHandler(w http.ResponseWriter, r *http.Request, u user.User) error {
 		return err
 	}
 
-	if err := rp.Commit("Initial commit", user.Name+"<"+user.Email+">"); err != nil {
+	if err := rp.Commit("Initial commit", user.Name+" <"+user.Email+">"); err != nil {
 		return err
 	}
 
@@ -178,7 +178,7 @@ func UpdateHandler(w http.ResponseWriter, r *http.Request, u user.User) error {
 		return WriteJSON(w, solution)
 	}
 
-	if err := rp.Commit("Default", user.Name+"<"+user.Email+">"); err != nil {
+	if err := rp.Commit("Default", user.Name+" <"+user.Email+">"); err != nil {
 		return err
 	}
 	solution.CommitHash = rp.LastHash()
@@ -231,7 +231,7 @@ func DestroyHandler(w http.ResponseWriter, r *http.Request, u user.User) error {
 		return nil
 	}
 
-	if err := rp.Commit("Default", user.Name+"<"+user.Email+">"); err != nil {
+	if err := rp.Commit("Default", user.Name+" <"+user.Email+">"); err != nil {
 		return err
 	}
 
