@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"encoding/json"
 	"net/http"
+	"reflect"
 
 	"github.com/gorilla/mux"
 	"github.com/philippfranke/mathub/services/user"
@@ -76,6 +77,7 @@ func UpdateHandler(w http.ResponseWriter, r *http.Request) error {
 		w.WriteHeader(http.StatusBadRequest)
 		return nil
 	}
+
 	comment.UserID = user.Id
 
 	original, err := Get(mux.Vars(r)["comment"])
@@ -87,6 +89,18 @@ func UpdateHandler(w http.ResponseWriter, r *http.Request) error {
 	}
 
 	comment.Id = original.Id
+
+	commentTypes := reflect.TypeOf(Comment{})
+	updateValues := reflect.ValueOf(&comment)
+
+	for i := 0; i < commentTypes.NumField(); i++ {
+		var comp = reflect.New(commentTypes.Field(i).Type).Elem().Interface()
+
+		if updateValues.Elem().Field(i).Interface() == comp {
+			val := reflect.ValueOf(&original).Elem().Field(i)
+			updateValues.Elem().Field(i).Set(val)
+		}
+	}
 
 	err = Update(comment)
 	if err != nil {
