@@ -1,0 +1,20 @@
+<matheader></matheader>
+All versions
+<div>
+	<div class="versionContainer">
+		<div class="versions" ng-repeat="item in data|orderBy:'Number': true">
+			<span ng-class="{versSel: item.Number==mark}">
+				Version {{item.Number}} 
+				<span class="versionOptions">
+					<span class="versionOpt" ng-click="">
+						<i class="fa fa-history" title="revert to commit"></i>
+					</span>
+					<span class="versionOpt" ng-click="displayVersion(item.Number)">
+						<i class="fa fa-eye" title="show commit"></i>
+					</span>
+				</span>
+			</span>
+		</div>
+	</div>
+	<latex data="tex"></latex>
+</div>

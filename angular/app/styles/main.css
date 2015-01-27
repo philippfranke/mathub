@@ -301,10 +301,38 @@ a:visited{
   border-bottom: 2px solid #e5e5e5;
 }
 
+/*Version css*/
+.versionContainer {
+  width:495px;
+  height:500px;
+  float:left;
+   border: 1px solid #e3e3e3;
+}
+.versions {
+  margin-right: 10px;
+  margin-left: 20px;
+  margin-top:10px;
+
+}
+
+.versionOptions {
+  float:right;
+}
+
+.versionOpt{
+  margin-left:5px;
+  cursor:pointer;
+  color:#F33;
+}
+
+.versSel{
+  background-color: #FFD27E;
+}
+
 /* latex output*/
 latex{
   top:0px;
-  left:500px;
+  position:relative;
   width:495px;
   height:500px;
   display:block;

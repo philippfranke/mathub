@@ -120,6 +120,20 @@ angular.module('angularApp')
         return $http.get(urlBase + '/search?query='+query);
     };
 
+    //version related stuff
+
+    api.getAssignmentVersions = function(uni,lect,assi){
+        return $http.get(urlBase + '/unis/'+uni+'/lectures/'+lect+'/assignments/'+assi+'/versions');
+    };
+
+    api.getSolutionVersions = function(uni,lect,assi,sol){
+        return $http.get(urlBase + '/xxx/' +uni+lect+assi+sol);
+    };
+
+    api.getAssignmentVersion = function(uni,lect,assi,version){
+        return $http.get(urlBase + '/unis/'+uni+'/lectures/'+lect+'/assignments/'+assi+'/versions/'+version);
+    };
+
     return api;
 }]).config(['$httpProvider', function($httpProvider) {
         $httpProvider.defaults.useXDomain = true;

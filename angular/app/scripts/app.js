@@ -52,6 +52,10 @@ angular
         templateUrl: 'views/query.html',
         controller: 'QueryCtrl'
       })
+      .when('/version', {
+        templateUrl: 'views/version.html',
+        controller: 'VersionCtrl'
+      })
       .otherwise({
         redirectTo: '/'
       });

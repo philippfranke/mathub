@@ -45,7 +45,7 @@ angular.module('angularApp')
     };
 
     $scope.showVersions = function(){
-      console.log('versions');
+      $location.path('/version');
     };
 
     $scope.view = function(){
